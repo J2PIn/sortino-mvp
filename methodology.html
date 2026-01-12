@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sortino — Methodology</title>
+  <meta name="description" content="How Sortino calculates evidence-weighted agency rankings: sources, confidence, freshness, and anti-gaming rules." />
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Optional: nice link previews if shared -->
+  <meta property="og:title" content="Sortino — Methodology" />
+  <meta property="og:description" content="How Sortino calculates evidence-weighted agency rankings: sources, confidence, freshness, and anti-gaming rules." />
+  <meta property="og:url" content="https://sortinoapp.com/methodology.html" />
+  <meta name="twitter:card" content="summary" />
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+</head>
+
+<body class="bg-white text-slate-900">
+  <main class="max-w-3xl mx-auto px-6 py-12">
+    <header class="mb-10">
+      <div class="flex items-center justify-between gap-4">
+        <a href="/" class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-slate-900"></div>
+          <div>
+            <div class="font-semibold leading-tight">Sortino</div>
+            <div class="text-sm text-slate-600 -mt-0.5">Agency Performance Index</div>
+          </div>
+        </a>
+        <nav class="flex items-center gap-4 text-sm">
+          <a href="/" class="font-medium underline">Home</a>
+          <a href="/#pricing" class="font-medium underline">Join</a>
+        </nav>
+      </div>
+
+      <h1 class="mt-10 text-4xl font-semibold tracking-tight">Methodology</h1>
+      <p class="mt-4 text-lg text-slate-700">
+        Sortino ranks agencies using a mix of <span class="font-medium text-slate-900">public signals</span> and
+        <span class="font-medium text-slate-900">verified performance evidence</span>. The goal is transparency:
+        each rank is designed to be explainable, freshness-aware, and resistant to gaming.
+      </p>
+
+      <div class="mt-6 rounded-2xl border border-slate-200 p-4 text-sm text-slate-700">
+        <div class="font-semibold text-slate-900">MVP notice</div>
+        <p class="mt-1">
+          This is version <span class="font-medium text-slate-900">v1</span>. Data coverage and safeguards will expand.
+          We will publish methodology updates and keep an audit trail of major changes.
+        </p>
+      </div>
+    </header>
+
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold">What we measure</h2>
+      <p class="mt-3 text-slate-700">
+        Sortino computes an overall score from a set of category scores. In the MVP, categories include:
+      </p>
+
+      <div class="mt-5 grid sm:grid-cols-2 gap-3">
+        <div class="rounded-2xl border border-slate-200 p-4">
+          <div class="font-semibold">Proof of Performance</div>
+          <div class="text-sm text-slate-600 mt-1">
+            Structured case studies and results, weighted by verification and recency.
+          </div>
+        </div>
+        <div class="rounded-2xl border border-slate-200 p-4">
+          <div class="font-semibold">Customer Satisfaction</div>
+          <div class="text-sm text-slate-600 mt-1">
+            Review rating, review volume, and recency; with anomaly checks.
+          </div>
+        </div>
+        <div class="rounded-2xl border border-slate-200 p-4">
+          <div class="font-semibold">Credibility</div>
+          <div class="text-sm text-slate-600 mt-1">
+            Awards and recognitions; weighted by significance and decaying over time.
+          </div>
+        </div>
+        <div class="rounded-2xl border border-slate-200 p-4">
+          <div class="font-semibold">Market Presence</div>
+          <div class="text-sm text-slate-600 mt-1">
+            Directional demand signals such as website activity and trend.
+          </div>
+        </div>
+        <div class="rounded-2xl border border-slate-200 p-4">
+          <div class="font-semibold">Authority & Activity</div>
+          <div class="text-sm text-slate-600 mt-1">
+            Publishing cadence and consistency (with diminishing returns).
+          </div>
+        </div>
+        <div class="rounded-2xl border border-slate-200 p-4">
+          <div class="font-semibold">Social Proof</div>
+          <div class="text-sm text-slate-600 mt-1">
+            Social presence and trend; designed to reduce the impact of inflated counts.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold">Where the data comes from</h2>
+      <div class="mt-4 space-y-4 text-slate-700">
+        <p>
+          <span class="font-medium text-slate-900">Public signals</span> are collected from public sources
+          (for example: awards listings, review pages, publishing activity, social profiles, and directional demand estimates).
+        </p>
+        <p>
+          <span class="font-medium text-slate-900">Agency-submitted evidence</span> is optional. Agencies can submit
+          anonymized case studies (industry theme + channel + timeframe + baseline → outcome). Supporting evidence can be uploaded
+          in a redacted form.
+        </p>
+        <p class="text-sm text-slate-600">
+          Note: some public metrics are inherently noisy or estimated. We treat these as directional signals and weight them accordingly.
+        </p>
+      </div>
+    </section>
+
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold">Verification & confidence</h2>
+      <p class="mt-3 text-slate-700">
+        Not all datapoints are treated equally. Each metric is assigned a confidence weight based on:
+      </p>
+
+      <ul class="mt-4 space-y-2 text-slate-700 list-disc pl-5">
+        <li><span class="font-medium text-slate-900">Source reliability</span> (public vs submitted; platform vs estimate)</li>
+        <li><span class="font-medium text-slate-900">Freshness</span> (recent datapoints contribute more than stale ones)</li>
+        <li><span class="font-medium text-slate-900">Verification status</span> (unverified vs evidence-uploaded vs verified)</li>
+        <li><span class="font-medium text-slate-900">Anti-gaming checks</span> (confidence can be reduced if patterns look abnormal)</li>
+      </ul>
+
+      <div class="mt-6 rounded-2xl border border-slate-200 p-5">
+        <div class="font-semibold">Verification levels</div>
+        <div class="mt-3 space-y-2 text-sm text-slate-700">
+          <div><span class="font-medium text-slate-900">Unverified:</span> claimed or collected without supporting evidence.</div>
+          <div><span class="font-medium text-slate-900">Evidence uploaded:</span> supporting materials provided (redacted).</div>
+          <div><span class="font-medium text-slate-900">Verified:</span> evidence reviewed and consistency-checked.</div>
+          <div><span class="font-medium text-slate-900">Disputed:</span> flagged for review; contribution reduced or removed.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold">Freshness & update frequency</h2>
+      <div class="mt-4 space-y-4 text-slate-700">
+        <p>
+          Rankings are recalculated regularly. To reduce noise, Sortino emphasizes trends and applies short-window smoothing
+          rather than allowing small daily changes to cause major rank swings.
+        </p>
+        <p>
+          Older datapoints decay in influence over time. For example, new reviews or newly verified results can move an agency more
+          than content published years ago.
+        </p>
+      </div>
+    </section>
+
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold">Normalization & weighting</h2>
+      <div class="mt-4 space-y-4 text-slate-700">
+        <p>
+          Metrics are normalized so agencies can be compared on a common scale (0–100). Category scores are then combined into an
+          overall score using fixed weights.
+        </p>
+        <p class="text-sm text-slate-600">
+          We use techniques like outlier capping and diminishing returns for easily inflated metrics (e.g., followers or content volume).
+        </p>
+
+        <div class="mt-2 rounded-2xl border border-slate-200 p-5">
+          <div class="font-semibold">MVP category weights (v1)</div>
+          <div class="mt-3 text-sm text-slate-700">
+            <div class="flex justify-between"><span>Proof of Performance</span><span class="font-medium text-slate-900">30%</span></div>
+            <div class="flex justify-between"><span>Customer Satisfaction (Reviews)</span><span class="font-medium text-slate-900">20%</span></div>
+            <div class="flex justify-between"><span>Credibility (Awards)</span><span class="font-medium text-slate-900">15%</span></div>
+            <div class="flex justify-between"><span>Market Presence</span><span class="font-medium text-slate-900">15%</span></div>
+            <div class="flex justify-between"><span>Authority & Activity</span><span class="font-medium text-slate-900">10%</span></div>
+            <div class="flex justify-between"><span>Social Proof</span><span class="font-medium text-slate-900">10%</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold">Anti-gaming safeguards</h2>
+      <p class="mt-3 text-slate-700">
+        Sortino applies safeguards to reduce manipulation and reward verifiable performance. Examples include:
+      </p>
+
+      <ul class="mt-4 space-y-2 text-slate-700 list-disc pl-5">
+        <li>Diminishing returns on easily inflated metrics (e.g., follower counts, post volume)</li>
+        <li>Confidence penalties for abnormal spikes (e.g., sudden review surges or follower jumps)</li>
+        <li>Reduced weight for unverified outlier performance claims</li>
+        <li>Audit trails for verification and disputes</li>
+      </ul>
+
+      <div class="mt-6 rounded-2xl border border-slate-200 p-5 text-sm text-slate-700">
+        <div class="font-semibold text-slate-900">Important</div>
+        <p class="mt-1">
+          Sortino does not sell ranking positions. Paid programs cover verification work, analytics, and optional features —
+          rankings follow the same scoring rules for everyone.
+        </p>
+      </div>
+    </section>
+
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold">Corrections & disputes</h2>
+      <div class="mt-4 space-y-4 text-slate-700">
+        <p>
+          Agencies and users can request corrections if data appears inaccurate. If a datapoint is disputed or found invalid,
+          its confidence is reduced or removed, and the audit trail is preserved.
+        </p>
+        <p>
+          For corrections, contact: <a class="underline font-medium" href="mailto:hello@sortinoapp.com">hello@sortinoapp.com</a>
+        </p>
+      </div>
+    </section>
+
+    <footer class="pt-8 border-t border-slate-200 text-sm text-slate-600">
+      <div>© <span id="y"></span> Sortino — methodology v1</div>
+      <div class="mt-2 text-xs text-slate-500">
+        Disclaimer: Sortino rankings are informational and reflect available data at the time of calculation.
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
