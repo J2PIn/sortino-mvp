@@ -1,0 +1,71 @@
+[
+  {
+    "id": "alpha",
+    "name": "Agency Alpha",
+    "website": "https://example.com",
+    "location": "Helsinki, FI",
+    "services": ["Paid Social", "Google Ads", "Creative"],
+    "industries": ["E-commerce", "B2B"],
+    "score": 82.4,
+    "confidence": "High",
+    "verification": "Verified",
+    "highlights": [
+      "Consistent review velocity",
+      "Verified case study submitted",
+      "Strong content cadence"
+    ],
+    "signals": {
+      "awards": 3,
+      "reviews": 128,
+      "followers": 54000,
+      "blog_posts_90d": 14
+    },
+    "updated_at": "2026-01-13"
+  },
+  {
+    "id": "bravo",
+    "name": "Agency Bravo",
+    "website": "https://example.com",
+    "location": "Berlin, DE",
+    "services": ["SEO", "Content", "Analytics"],
+    "industries": ["SaaS", "B2B"],
+    "score": 78.9,
+    "confidence": "Med",
+    "verification": "Evidence",
+    "highlights": [
+      "SEO visibility trend up",
+      "Evidence uploaded (redacted)",
+      "Stable publishing cadence"
+    ],
+    "signals": {
+      "awards": 1,
+      "reviews": 64,
+      "followers": 21000,
+      "blog_posts_90d": 22
+    },
+    "updated_at": "2026-01-13"
+  },
+  {
+    "id": "charlie",
+    "name": "Agency Charlie",
+    "website": "https://example.com",
+    "location": "London, UK",
+    "services": ["CRO", "Paid Social"],
+    "industries": ["E-commerce"],
+    "score": 74.1,
+    "confidence": "Low",
+    "verification": "Unverified",
+    "highlights": [
+      "Reviews limited / older",
+      "Signals mostly public-only",
+      "Verification pending"
+    ],
+    "signals": {
+      "awards": 0,
+      "reviews": 18,
+      "followers": 9000,
+      "blog_posts_90d": 4
+    },
+    "updated_at": "2026-01-13"
+  }
+]
