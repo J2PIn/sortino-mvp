@@ -33,6 +33,23 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 </head>
 
+<style>
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .marquee {
+    animation: marquee 28s linear infinite;
+    will-change: transform;
+  }
+  .marquee:hover { animation-play-state: paused; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee { animation: none !important; transform: none !important; }
+  }
+</style>
+
+  
 <body class="font-sans text-slate-900">
   <!-- premium light background -->
   <div class="fixed inset-0 -z-10">
