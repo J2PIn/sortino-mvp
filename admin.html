@@ -165,4 +165,274 @@
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>© <span id="y"></span> Sortino</div>
         <div class="flex gap-4">
-          <a class="h
+          <a class="hover:text-slate-900" href="/privacy.html">Privacy</a>
+          <a class="hover:text-slate-900" href="#" onclick="window.SortinoCookie?.open(); return false;">Cookie settings</a>
+          <a class="hover:text-slate-900" href="mailto:hello@sortinoapp.com">Contact</a>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+
+    const KEY = "sortino_admin_token_v1"; // sessionStorage key
+    const tokenInput = document.getElementById("tokenInput");
+    const saveTokenBtn = document.getElementById("saveToken");
+    const clearTokenBtn = document.getElementById("clearToken");
+    const refreshBtn = document.getElementById("refresh");
+    const statusEl = document.getElementById("status");
+
+    const listEl = document.getElementById("list");
+    const emptyEl = document.getElementById("empty");
+    const countEl = document.getElementById("count");
+    const searchEl = document.getElementById("search");
+    const filterEl = document.getElementById("quickFilter");
+
+    let rows = [];
+
+    function getToken() {
+      return sessionStorage.getItem(KEY) || "";
+    }
+    function setToken(t) {
+      if (t) sessionStorage.setItem(KEY, t);
+      else sessionStorage.removeItem(KEY);
+    }
+
+    function showStatus(msg, kind = "info") {
+      statusEl.classList.remove("hidden");
+      statusEl.textContent = msg;
+      statusEl.className = "rounded-3xl ring-1 p-5 text-sm " + (
+        kind === "ok" ? "bg-emerald-50 ring-emerald-200 text-emerald-900" :
+        kind === "err" ? "bg-rose-50 ring-rose-200 text-rose-900" :
+        "bg-slate-50 ring-slate-200 text-slate-700"
+      );
+    }
+
+    function esc(s) {
+      return String(s || "").replace(/[&<>"']/g, c => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+      }[c]));
+    }
+
+    function chip(label, tone) {
+      const cls =
+        tone === "ok" ? "bg-emerald-50 ring-emerald-200 text-emerald-900" :
+        tone === "warn" ? "bg-amber-50 ring-amber-200 text-amber-900" :
+        "bg-white ring-slate-200 text-slate-700";
+      return `<span class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs ring-1 ${cls}">${esc(label)}</span>`;
+    }
+
+    function applyClientFilters() {
+      const q = (searchEl.value || "").trim().toLowerCase();
+      const f = filterEl.value;
+
+      let out = rows;
+
+      if (f === "evidence") out = out.filter(r => !!r.evidence_key);
+      if (f === "no_evidence") out = out.filter(r => !r.evidence_key);
+
+      if (q) {
+        out = out.filter(r => {
+          const blob = [
+            r.agency_name, r.primary_service, r.industry_theme, r.channel, r.timeframe
+          ].join(" ").toLowerCase();
+          return blob.includes(q);
+        });
+      }
+
+      return out;
+    }
+
+    function render() {
+      const filtered = applyClientFilters();
+      countEl.textContent = `${filtered.length}`;
+
+      if (!filtered.length) {
+        listEl.innerHTML = "";
+        emptyEl.classList.remove("hidden");
+        return;
+      }
+      emptyEl.classList.add("hidden");
+
+      listEl.innerHTML = filtered.map(r => {
+        const hasEvidence = !!r.evidence_key;
+        const evidenceChip = hasEvidence ? chip("Evidence uploaded", "warn") : chip("No evidence", "muted");
+        const intentChip =
+          r.verification_intent === "already_joined" ? chip("Joined (Stripe)", "ok") :
+          r.verification_intent === "interested" ? chip("Interested in verification", "warn") :
+          chip("Not sure", "muted");
+
+        return `
+          <article class="rounded-3xl bg-white/80 backdrop-blur ring-1 ring-slate-200 shadow-soft p-6">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <div class="text-xs text-slate-500">Received: ${esc(r.received_at || "")}</div>
+                <div class="mt-1 text-lg font-semibold">${esc(r.agency_name)}</div>
+                <div class="mt-1 text-sm text-slate-600">
+                  <a class="underline" href="${esc(r.agency_website)}" target="_blank" rel="noopener">${esc(r.agency_website)}</a>
+                </div>
+              </div>
+
+              <div class="text-right">
+                <div class="text-xs text-slate-500">Submission ID</div>
+                <div class="font-mono text-xs mt-1 bg-white ring-1 ring-slate-200 rounded-lg px-2 py-1 inline-block">${esc(r.id)}</div>
+              </div>
+            </div>
+
+            <div class="mt-4 flex flex-wrap gap-2">
+              ${chip(r.primary_service || "Service: —", "muted")}
+              ${chip(`Theme: ${r.industry_theme || "—"}`, "muted")}
+              ${chip(`Timeframe: ${r.timeframe || "—"}`, "muted")}
+              ${evidenceChip}
+              ${intentChip}
+            </div>
+
+            <details class="mt-4 rounded-2xl bg-white ring-1 ring-slate-200 p-4">
+              <summary class="cursor-pointer text-sm font-semibold text-slate-900">View details</summary>
+              <div class="mt-3 text-sm text-slate-700 space-y-2">
+                <div><span class="font-semibold">Channel:</span> ${esc(r.channel || "—")}</div>
+                <div><span class="font-semibold">Budget band:</span> ${esc(r.budget_band || "—")}</div>
+                <div><span class="font-semibold">Verification intent:</span> ${esc(r.verification_intent || "—")}</div>
+                <div class="pt-2 border-t border-slate-200">
+                  <div class="font-semibold">Evidence key</div>
+                  <div class="font-mono text-xs bg-slate-50 ring-1 ring-slate-200 rounded-xl px-3 py-2 mt-2 break-all">
+                    ${esc(r.evidence_key || "—")}
+                  </div>
+                </div>
+              </div>
+            </details>
+
+            <div class="mt-5 flex flex-col sm:flex-row gap-2 sm:items-center sm:justify-between">
+              <div class="text-xs text-slate-500">
+                Approving will publish this agency into the Directory with MVP defaults.
+              </div>
+              <div class="flex gap-2">
+                <button data-approve="${esc(r.id)}"
+                  class="approveBtn rounded-xl bg-slate-900 text-white px-4 py-2 text-sm font-semibold hover:bg-slate-800">
+                  Approve & publish
+                </button>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join("");
+
+      // wire approve buttons
+      document.querySelectorAll(".approveBtn").forEach(btn => {
+        btn.addEventListener("click", async () => {
+          const id = btn.getAttribute("data-approve");
+          await approve(id, btn);
+        });
+      });
+    }
+
+    async function loadPending() {
+      const token = getToken();
+      if (!token) {
+        showStatus("Paste your ADMIN_TOKEN to load pending submissions.", "info");
+        rows = [];
+        render();
+        return;
+      }
+
+      showStatus("Loading pending submissions…", "info");
+
+      try {
+        const res = await fetch("/api/admin/pending", {
+          headers: { "Authorization": `Bearer ${token}` },
+          cache: "no-store"
+        });
+
+        if (!res.ok) {
+          const text = await res.text();
+          throw new Error(text || "Failed to load pending submissions.");
+        }
+
+        rows = await res.json();
+        showStatus(`Loaded ${rows.length} pending submissions.`, "ok");
+        render();
+      } catch (e) {
+        showStatus(e.message || "Failed to load.", "err");
+        rows = [];
+        render();
+      }
+    }
+
+    async function approve(submissionId, btn) {
+      const token = getToken();
+      if (!token) {
+        showStatus("Missing token. Paste ADMIN_TOKEN first.", "err");
+        return;
+      }
+
+      btn.disabled = true;
+      const prev = btn.textContent;
+      btn.textContent = "Approving…";
+
+      try {
+        const res = await fetch("/api/admin/approve", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ submission_id: submissionId })
+        });
+
+        if (!res.ok) {
+          const text = await res.text();
+          throw new Error(text || "Approve failed.");
+        }
+
+        const data = await res.json();
+        showStatus(`Approved. Published agency_id: ${data.agency_id}`, "ok");
+
+        // remove approved from list
+        rows = rows.filter(r => r.id !== submissionId);
+        render();
+      } catch (e) {
+        showStatus(e.message || "Approve failed.", "err");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = prev;
+      }
+    }
+
+    // Token controls
+    saveTokenBtn.addEventListener("click", () => {
+      const t = (tokenInput.value || "").trim();
+      if (!t) {
+        showStatus("Token is empty.", "err");
+        return;
+      }
+      setToken(t);
+      tokenInput.value = "";
+      showStatus("Token saved for this session.", "ok");
+      loadPending();
+    });
+
+    clearTokenBtn.addEventListener("click", () => {
+      setToken("");
+      showStatus("Token cleared.", "info");
+      rows = [];
+      render();
+    });
+
+    refreshBtn.addEventListener("click", loadPending);
+    searchEl.addEventListener("input", render);
+    filterEl.addEventListener("change", render);
+
+    // Auto-load if token already present in sessionStorage
+    if (getToken()) {
+      showStatus("Token detected. Loading…", "info");
+      loadPending();
+    } else {
+      showStatus("Paste your ADMIN_TOKEN to begin.", "info");
+      render();
+    }
+  </script>
+
+  <!-- Paste your cookie banner snippet here too if you want consistency -->
+</body>
+</html>
