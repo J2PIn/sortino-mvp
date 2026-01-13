@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sortino — Privacy Policy</title>
+  <meta name="description" content="Sortino Privacy Policy: data we process, cookies, Stripe payments, and your rights." />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui'] },
+          boxShadow: { soft: "0 10px 30px rgba(15, 23, 42, 0.08)" }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+</head>
+
+<body class="font-sans text-slate-900">
+  <!-- premium light background -->
+  <div class="fixed inset-0 -z-10">
+    <div class="absolute inset-0 bg-[#fbfcff]"></div>
+    <div class="absolute -top-32 left-1/2 h-[28rem] w-[52rem] -translate-x-1/2 rounded-full bg-cyan-200/40 blur-3xl"></div>
+    <div class="absolute top-40 left-1/4 h-[26rem] w-[40rem] rounded-full bg-indigo-200/35 blur-3xl"></div>
+    <div class="absolute top-[30rem] right-0 h-[26rem] w-[40rem] rounded-full bg-amber-200/25 blur-3xl"></div>
+  </div>
+
+  <main class="max-w-6xl mx-auto px-6 py-10">
+    <!-- Nav -->
+    <header class="flex items-center justify-between gap-4">
+      <a href="/" class="flex items-center gap-3">
+        <div class="h-10 w-10 rounded-2xl bg-white shadow-soft ring-1 ring-slate-200 flex items-center justify-center">
+          <span class="font-bold text-slate-900">S</span>
+        </div>
+        <div>
+          <div class="font-semibold leading-tight">Sortino</div>
+          <div class="text-sm text-slate-600 -mt-0.5">Agency Performance Index</div>
+        </div>
+      </a>
+
+      <nav class="hidden sm:flex items-center gap-5 text-sm text-slate-700">
+        <a class="hover:text-slate-900" href="/methodology.html">Methodology</a>
+        <a class="hover:text-slate-900" href="/signals.html">Signals</a>
+        <a class="hover:text-slate-900 font-medium" href="/privacy.html">Privacy</a>
+      </nav>
+
+      <a href="/#pricing"
+         class="inline-flex items-center gap-2 rounded-xl bg-slate-900 text-white px-4 py-2 text-sm font-semibold hover:bg-slate-800">
+        Join MVP
+      </a>
+    </header>
+
+    <section class="mt-10">
+      <div class="inline-flex items-center gap-2 rounded-full bg-white/70 backdrop-blur px-3 py-1 text-xs text-slate-700 ring-1 ring-slate-200 shadow-soft">
+        Privacy Policy
+      </div>
+
+      <h1 class="mt-5 text-4xl font-semibold tracking-tight">Privacy Policy</h1>
+      <p class="mt-3 text-sm text-slate-600">Last updated: <span id="lastUpdated"></span></p>
+
+      <div class="mt-6 rounded-3xl bg-white/80 backdrop-blur ring-1 ring-slate-200 shadow-soft p-6">
+        <p class="text-slate-700">
+          This policy explains how Sortino (“we”, “us”) handles personal data on <span class="font-medium">sortinoapp.com</span>.
+          This is an MVP site. We aim to collect the minimum necessary data to operate the site, handle payments, and respond to inquiries.
+        </p>
+        <p class="mt-3 text-sm text-slate-600">
+          Contact for privacy requests: <a class="font-medium underline" href="mailto:hello@sortinoapp.com">hello@sortinoapp.com</a>
+        </p>
+      </div>
+    </section>
+
+    <section class="mt-10 grid lg:grid-cols-3 gap-6 items-start">
+      <aside class="lg:sticky lg:top-10 space-y-4">
+        <div class="rounded-3xl bg-white/80 backdrop-blur ring-1 ring-slate-200 shadow-soft p-6">
+          <div class="text-sm font-semibold">Quick summary</div>
+          <ul class="mt-3 space-y-2 text-sm text-slate-700">
+            <li>• We host on Cloudflare.</li>
+            <li>• Payments happen via Stripe Payment Links.</li>
+            <li>• We use strictly necessary cookies for security/operation.</li>
+            <li>• No marketing/analytics cookies on-site in the MVP.</li>
+          </ul>
+        </div>
+
+        <div class="rounded-3xl bg-white/80 backdrop-blur ring-1 ring-slate-200 shadow-soft p-6">
+          <div class="text-sm font-semibold">Your choices</div>
+          <button onclick="window.SortinoCookie?.open()"
+            class="mt-3 w-full rounded-xl bg-white text-slate-900 px-4 py-2 text-sm font-semibold ring-1 ring-slate-200 hover:bg-slate-50">
+            Cookie settings
+          </button>
+        </div>
+      </aside>
+
+      <div class="lg:col-span-2 space-y-6">
+        <div class="rounded-3xl bg-white/80 backdrop-blur ring-1 ring-slate-200 shadow-soft p-6">
+          <h2 class="text-xl font-semibold">What data we collect</h2>
+          <div class="mt-3 space-y-3 text-slate-700">
+            <p><span class="font-medium text-slate-900">Website usage (limited):</span> Our hosting provider may process technical logs (IP address, user agent, timestamps) for security and performance.</p>
+            <p><span class="font-medium text-slate-900">Emails you send us:</span> If you email us, we will process your email address and the contents of your message to respond.</p>
+            <p><span class="font-medium text-slate-900">Payments:</span> If you purchase via Stripe Payment Links, Stripe processes payment and related personal data (e.g., contact and transaction details) as a payment processor/service provider.</p>
+          </div>
+        </div>
+
+        <div class="rounded-3xl bg-white/80 backdrop-blur ring-1 ring-slate-200 shadow-soft p-6">
+          <h2 class="text-xl font-semibold">How we use data</h2>
+          <ul class="mt-3 space-y-2 text-slate-700 list-disc pl-5">
+            <li>To operate and secure the website.</li>
+            <li>To respond to inquiries and support requests.</li>
+            <li>To process payments and prevent fraud (via Stripe).</li>
+            <li>To comply with legal obligations where applicable.</li>
+          </ul>
+        </div>
+
+        <div class="rounded-3xl bg-white/80 backdrop-blur ring-1 ring-slate-200 shadow-soft p-6">
+          <h2 class="text-xl font-semibold">Cookies</h2>
+          <p class="mt-2 text-slate-700">
+            We use strictly necessary cookies for security and site operation. In the MVP we do not intentionally set analytics or marketing cookies on-site.
+            Some cookies may be set by our infrastructure providers for security.
+          </p>
+
+          <div class="mt-4 rounded-2xl bg-white ring-1 ring-slate-200 p-4">
+            <div class="text-sm font-semibold">Cookie types</div>
+            <div class="mt-3 text-sm text-slate-700 space-y-2">
+              <div>
+                <span class="font-medium text-slate-900">Strictly necessary:</span>
+                required for security and basic operation (e.g., bot protection cookies such as Cloudflare’s <code>__cf_bm</code> if enabled).
+              </div>
+              <div>
+                <span class="font-medium text-slate-900">Analytics / Marketing:</span>
+                off by default in the MVP. If we add them, we’ll request consent here first.
+              </div>
+            </div>
+          </div>
+
+          <p class="mt-4 text-sm text-slate-600">
+            For details on third parties’ cookie use:
+            <a class="font-medium underline" href="https://developers.cloudflare.com/fundamentals/reference/policies-compliances/cloudflare-cookies/" target="_blank" rel="noopener">Cloudflare cookies</a>,
+            <a class="font-medium underline" href="https://stripe.com/legal/cookies-policy" target="_blank" rel="noopener">Stripe cookie policy</a>.
+          </p>
+        </div>
+
+        <div class="rounded-3xl bg-white/80 backdrop-blur ring-1 ring-slate-200 shadow-soft p-6">
+          <h2 class="text-xl font-semibold">Sharing & processors</h2>
+          <p class="mt-2 text-slate-700">
+            We share data only with service providers needed to operate the site and handle payments.
+          </p>
+          <ul class="mt-3 space-y-2 text-slate-700 list-disc pl-5">
+            <li><span class="font-medium text-slate-900">Cloudflare</span> (hosting, security, content delivery).</li>
+            <li><span class="font-medium text-slate-900">Stripe</span> (payment processing via Payment Links).</li>
+          </ul>
+          <p class="mt-3 text-sm text-slate-600">
+            Stripe privacy resources:
+            <a class="font-medium underline" href="https://stripe.com/privacy" target="_blank" rel="noopener">Privacy Policy</a>.
+          </p>
+        </div>
+
+        <div class="rounded-3xl bg-white/80 backdrop-blur ring-1 ring-slate-200 shadow-soft p-6">
+          <h2 class="text-xl font-semibold">Legal bases (EEA/UK)</h2>
+          <ul class="mt-3 space-y-2 text-slate-700 list-disc pl-5">
+            <li><span class="font-medium text-slate-900">Legitimate interests:</span> operating and securing the website.</li>
+            <li><span class="font-medium text-slate-900">Contract:</span> providing paid services you purchase.</li>
+            <li><span class="font-medium text-slate-900">Consent:</span> for non-essential cookies if/when added.</li>
+            <li><span class="font-medium text-slate-900">Legal obligation:</span> compliance where required.</li>
+          </ul>
+          <p class="mt-3 text-sm text-slate-600">
+            This section is informational and not legal advice.
+          </p>
+        </div>
+
+        <div class="rounded-3xl bg-white/80 backdrop-blur ring-1 ring-slate-200 shadow-soft p-6">
+          <h2 class="text-xl font-semibold">Your rights</h2>
+          <p class="mt-2 text-slate-700">
+            Depending on your location, you may have rights such as access, correction, deletion, objection, portability, and withdrawal of consent.
+            To exercise rights, contact: <a class="font-medium underline" href="mailto:hello@sortinoapp.com">hello@sortinoapp.com</a>.
+          </p>
+        </div>
+
+        <div class="rounded-3xl bg-white/80 backdrop-blur ring-1 ring-slate-200 shadow-soft p-6">
+          <h2 class="text-xl font-semibold">Changes</h2>
+          <p class="mt-2 text-slate-700">
+            We may update this policy as the product evolves. We’ll change the “Last updated” date above when we do.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="mt-16 pt-10 border-t border-slate-200 text-sm text-slate-600">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div>© <span id="y"></span> Sortino</div>
+        <div class="flex gap-4">
+          <a class="hover:text-slate-900" href="/">Home</a>
+          <a class="hover:text-slate-900" href="/methodology.html">Methodology</a>
+          <a class="hover:text-slate-900" href="/signals.html">Signals</a>
+          <a class="hover:text-slate-900" href="#" onclick="window.SortinoCookie?.open(); return false;">Cookie settings</a>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+    document.getElementById("lastUpdated").textContent = new Date().toISOString().slice(0,10);
+  </script>
+
+  <!-- Include the same cookie banner snippet here too (paste the banner code below this line) -->
+</body>
+</html>
