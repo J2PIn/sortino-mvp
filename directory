@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sortino — Agency Directory</title>
+  <meta name="description" content="Sortino Agency Directory: evidence-weighted rankings, filters, and agency profiles (MVP)." />
+
+  <meta property="og:title" content="Sortino — Agency Directory" />
+  <meta property="og:description" content="Explore agencies by score, confidence, and services. Evidence-weighted rankings." />
+  <meta property="og:url" content="https://sortinoapp.com/directory.html" />
+  <meta property="og:image" content="https://sortinoapp.com/assets/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui'] },
+          boxShadow: { soft: "0 10px 30px rgba(15, 23, 42, 0.08)" }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+
+  <style>
+    .chip { display:inline-flex; align-items:center; gap:.4rem; padding:.35rem .6rem; border-radius:999px; font-size:.75rem; }
+  </style>
+</head>
+
+<body class="font-sans text-slate-900">
+  <!-- premium light background -->
+  <div class="fixed inset-0 -z-10">
+    <div class="absolute inset-0 bg-[#fbfcff]"></div>
+    <div class="absolute -top-32 left-1/2 h-[28rem] w-[52rem] -translate-x-1/2 rounded-full bg-cyan-200/40 blur-3xl"></div>
+    <div class="absolute top-40 left-1/4 h-[26rem] w-[40rem] rounded-full bg-indigo-200/35 blur-3xl"></div>
+    <div class="absolute top-[30rem] right-0 h-[26rem] w-[40rem] rounded-full bg-amber-200/25 blur-3xl"></div>
+  </div>
+
+  <main class="max-w-6xl mx-auto px-6 py-10">
+    <!-- Nav -->
+    <header class="flex items-center justify-between gap-4">
+      <a href="/" class="flex items-center gap-3">
+        <div class="h-10 w-10 rounded-2xl bg-white shadow-soft ring-1 ring-slate-200 flex items-center justify-center">
+          <span class="font-bold text-slate-900">S</span>
+        </div>
+        <div>
+          <div class="font-semibold leading-tight">Sortino</div>
+          <div class="text-sm text-slate-600 -mt-0.5">Agency Performance Index</div>
+        </div>
+      </a>
+
+      <nav class="hidden sm:flex items-center gap-5 text-sm text-slate-700">
+        <a class="hover:text-slate-900" href="/directory.html">Directory</a>
+        <a class="hover:text-slate-900" href="/methodology.html">Methodology</a>
+        <a class="hover:text-slate-900" href="/signals.html">Signals</a>
+        <a class="hover:text-slate-900" href="/#pricing">Join</a>
+      </nav>
+
+      <a href="/#pricing"
+         class="inline-flex items-center gap-2 rounded-xl bg-slate-900 text-white px-4 py-2 text-sm font-semibold hover:bg-slate-800">
+        Join MVP
+      </a>
+    </header>
+
+    <!-- Header -->
+    <section class="mt-10">
+      <div class="inline-flex items-center gap-2 rounded-full bg-white/70 backdrop-blur px-3 py-1 text-xs text-slate-700 ring-1 ring-slate-200 shadow-soft">
+        <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+        Agency Directory • MVP
+      </div>
+
+      <h1 class="mt-5 text-4xl font-semibold tracking-tight">Agency Directory</h1>
+      <p class="mt-4 text-lg text-slate-700 leading-relaxed max-w-3xl">
+        Explore agencies by score, confidence, and services. Entries start as public-signal based and improve with verified evidence.
+      </p>
+    </section>
+
+    <!-- Controls -->
+    <section class="mt-8 rounded-3xl bg-white/80 backdrop-blur ring-1 ring-slate-200 shadow-soft p-5">
+      <div class="grid md:grid-cols-4 gap-3">
+        <div class="md:col-span-2">
+          <label class="text-xs font-semibold text-slate-700">Search</label>
+          <input id="q" class="mt-1 w-full rounded-2xl bg-white ring-1 ring-slate-200 px-4 py-3 text-sm outline-none focus:ring-slate-300"
+            placeholder="Search agencies, services, location…" />
+        </div>
+
+        <div>
+          <label class="text-xs font-semibold text-slate-700">Service</label>
+          <select id="service" class="mt-1 w-full rounded-2xl bg-white ring-1 ring-slate-200 px-4 py-3 text-sm outline-none focus:ring-slate-300">
+            <option value="">All</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="text-xs font-semibold text-slate-700">Sort</label>
+          <select id="sort" class="mt-1 w-full rounded-2xl bg-white ring-1 ring-slate-200 px-4 py-3 text-sm outline-none focus:ring-slate-300">
+            <option value="score_desc">Score (high → low)</option>
+            <option value="score_asc">Score (low → high)</option>
+            <option value="updated_desc">Recently updated</option>
+            <option value="name_asc">Name (A → Z)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="mt-4 flex flex-wrap items-center gap-2">
+        <span class="text-xs text-slate-600">Confidence:</span>
+        <button data-conf="" class="confBtn chip bg-white ring-1 ring-slate-200 text-slate-700">All</button>
+        <button data-conf="High" class="confBtn chip bg-emerald-50 ring-1 ring-emerald-200 text-emerald-900">High</button>
+        <button data-conf="Med" class="confBtn chip bg-amber-50 ring-1 ring-amber-200 text-amber-900">Med</button>
+        <button data-conf="Low" class="confBtn chip bg-slate-50 ring-1 ring-slate-200 text-slate-800">Low</button>
+
+        <span class="ml-auto text-xs text-slate-500" id="count">Loading…</span>
+      </div>
+    </section>
+
+    <!-- Results -->
+    <section class="mt-6 grid lg:grid-cols-2 gap-4" id="results">
+      <!-- cards injected -->
+    </section>
+
+    <!-- Empty state -->
+    <section id="empty" class="hidden mt-6 rounded-3xl bg-white/80 backdrop-blur ring-1 ring-slate-200 shadow-soft p-6">
+      <div class="text-lg font-semibold">No matches</div>
+      <div class="mt-2 text-sm text-slate-600">Try a different search term or clear filters.</div>
+    </section>
+
+    <footer class="mt-16 pt-10 border-t border-slate-200 text-sm text-slate-600">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div>© <span id="y"></span> Sortino</div>
+        <div class="flex gap-4">
+          <a class="hover:text-slate-900" href="/">Home</a>
+          <a class="hover:text-slate-900" href="/privacy.html">Privacy</a>
+          <a class="hover:text-slate-900" href="#" onclick="window.SortinoCookie?.open(); return false;">Cookie settings</a>
+          <a class="hover:text-slate-900" href="mailto:hello@sortinoapp.com">Contact</a>
+        </div>
+      </div>
+      <div class="mt-3 text-xs text-slate-500">
+        Directory is informational. Verification increases confidence; rankings are not for sale.
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+
+    const state = { agencies: [], q: "", service: "", conf: "", sort: "score_desc" };
+
+    const elQ = document.getElementById("q");
+    const elService = document.getElementById("service");
+    const elSort = document.getElementById("sort");
+    const elResults = document.getElementById("results");
+    const elEmpty = document.getElementById("empty");
+    const elCount = document.getElementById("count");
+
+    function badge(confidence, verification) {
+      // confidence chip
+      const conf = confidence || "Low";
+      const confClass =
+        conf === "High" ? "bg-emerald-50 ring-emerald-200 text-emerald-900" :
+        conf === "Med" ? "bg-amber-50 ring-amber-200 text-amber-900" :
+        "bg-slate-50 ring-slate-200 text-slate-800";
+
+      // verification chip
+      const ver = verification || "Unverified";
+      const verClass =
+        ver === "Verified" ? "bg-emerald-50 ring-emerald-200 text-emerald-900" :
+        ver === "Evidence" ? "bg-amber-50 ring-amber-200 text-amber-900" :
+        "bg-white ring-slate-200 text-slate-700";
+
+      return `
+        <span class="chip ring-1 ${confClass}">Confidence: ${conf}</span>
+        <span class="chip ring-1 ${verClass}">${ver}</span>
+      `;
+    }
+
+    function escapeHtml(s) {
+      return String(s || "").replace(/[&<>"']/g, c => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+      }[c]));
+    }
+
+    function renderCard(a, idx) {
+      const services = (a.services || []).slice(0, 4).map(x =>
+        `<span class="chip bg-slate-50 ring-1 ring-slate-200 text-slate-800">${escapeHtml(x)}</span>`
+      ).join("");
+
+      const highlights = (a.highlights || []).slice(0, 3).map(x =>
+        `<li class="flex gap-2"><span class="text-emerald-600 mt-0.5">✓</span><span>${escapeHtml(x)}</span></li>`
+      ).join("");
+
+      const score = (typeof a.score === "number") ? a.score.toFixed(1) : "—";
+      const updated = a.updated_at ? escapeHtml(a.updated_at) : "—";
+      const rank = idx + 1;
+
+      return `
+        <article class="rounded-3xl bg-white/80 backdrop-blur ring-1 ring-slate-200 shadow-soft p-6">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <div class="text-xs text-slate-500">Rank #${rank}</div>
+              <h3 class="mt-1 text-lg font-semibold">${escapeHtml(a.name)}</h3>
+              <div class="mt-1 text-sm text-slate-600">${escapeHtml(a.location || "")}</div>
+            </div>
+            <div class="text-right">
+              <div class="text-xs text-slate-500">Sortino Score</div>
+              <div class="text-3xl font-semibold tracking-tight">${score}</div>
+            </div>
+          </div>
+
+          <div class="mt-4 flex flex-wrap gap-2">
+            ${badge(a.confidence, a.verification)}
+          </div>
+
+          <div class="mt-4 flex flex-wrap gap-2">
+            ${services}
+          </div>
+
+          <ul class="mt-4 space-y-2 text-sm text-slate-700">
+            ${highlights}
+          </ul>
+
+          <div class="mt-5 flex items-center justify-between gap-3">
+            <div class="text-xs text-slate-500">Updated: ${updated}</div>
+            <div class="flex gap-2">
+              ${a.website ? `<a class="rounded-xl bg-white text-slate-900 px-3 py-2 text-sm font-semibold ring-1 ring-slate-200 hover:bg-slate-50"
+                href="${escapeHtml(a.website)}" target="_blank" rel="noopener">Website</a>` : ``}
+              <a class="rounded-xl bg-slate-900 text-white px-3 py-2 text-sm font-semibold hover:bg-slate-800"
+                 href="/#pricing">Get verified</a>
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    function applyFilters(list) {
+      const q = state.q.trim().toLowerCase();
+      let out = list;
+
+      if (q) {
+        out = out.filter(a => {
+          const blob = [
+            a.name, a.location,
+            ...(a.services || []),
+            ...(a.industries || [])
+          ].join(" ").toLowerCase();
+          return blob.includes(q);
+        });
+      }
+
+      if (state.service) {
+        out = out.filter(a => (a.services || []).includes(state.service));
+      }
+
+      if (state.conf) {
+        out = out.filter(a => (a.confidence || "") === state.conf);
+      }
+
+      // sort
+      const sort = state.sort;
+      out = [...out].sort((a, b) => {
+        if (sort === "name_asc") return (a.name || "").localeCompare(b.name || "");
+        if (sort === "score_asc") return (a.score ?? -Infinity) - (b.score ?? -Infinity);
+        if (sort === "updated_desc") return (b.updated_at || "").localeCompare(a.updated_at || "");
+        // score_desc
+        return (b.score ?? -Infinity) - (a.score ?? -Infinity);
+      });
+
+      return out;
+    }
+
+    function render() {
+      const filtered = applyFilters(state.agencies);
+      elCount.textContent = `${filtered.length} agencies`;
+
+      if (!filtered.length) {
+        elResults.innerHTML = "";
+        elEmpty.classList.remove("hidden");
+        return;
+      }
+
+      elEmpty.classList.add("hidden");
+      elResults.innerHTML = filtered.map((a, idx) => renderCard(a, idx)).join("");
+    }
+
+    function populateServiceOptions() {
+      const all = new Set();
+      state.agencies.forEach(a => (a.services || []).forEach(s => all.add(s)));
+      const opts = ["", ...Array.from(all).sort()];
+      elService.innerHTML = opts.map(v => `<option value="${escapeHtml(v)}">${v ? escapeHtml(v) : "All"}</option>`).join("");
+    }
+
+    async function load() {
+      try {
+        const res = await fetch("/data/agencies.json", { cache: "no-store" });
+        if (!res.ok) throw new Error("Failed to load agencies.json");
+        state.agencies = await res.json();
+        populateServiceOptions();
+        render();
+      } catch (e) {
+        elCount.textContent = "Could not load directory";
+        elResults.innerHTML = `
+          <div class="lg:col-span-2 rounded-3xl bg-white/80 backdrop-blur ring-1 ring-slate-200 shadow-soft p-6">
+            <div class="text-lg font-semibold">Directory not available yet</div>
+            <div class="mt-2 text-sm text-slate-600">
+              We’re preparing the first index list. Check back soon.
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    // wire controls
+    elQ.addEventListener("input", (e) => { state.q = e.target.value; render(); });
+    elService.addEventListener("change", (e) => { state.service = e.target.value; render(); });
+    elSort.addEventListener("change", (e) => { state.sort = e.target.value; render(); });
+
+    document.querySelectorAll(".confBtn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        state.conf = btn.getAttribute("data-conf") || "";
+        // visual active state
+        document.querySelectorAll(".confBtn").forEach(b => b.classList.remove("ring-slate-400"));
+        btn.classList.add("ring-slate-400");
+        render();
+      });
+    });
+
+    load();
+  </script>
+
+  <!-- Paste your cookie banner snippet here as well -->
+</body>
+</html>
