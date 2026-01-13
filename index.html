@@ -49,6 +49,150 @@
   }
 </style>
 
+<!-- Cookie banner -->
+<div id="cookieBanner" class="hidden fixed inset-x-0 bottom-0 z-50 p-4">
+  <div class="max-w-6xl mx-auto">
+    <div class="rounded-3xl bg-white/90 backdrop-blur ring-1 ring-slate-200 shadow-soft p-5 sm:p-6">
+      <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+        <div class="max-w-2xl">
+          <div class="text-sm font-semibold">Cookies & privacy</div>
+          <p class="mt-2 text-sm text-slate-700">
+            Sortino uses strictly necessary cookies for security and basic site operation. If we add analytics or marketing cookies later,
+            you’ll be able to choose them here. You can update your choice anytime.
+            <a class="font-medium underline" href="/privacy.html">Read our Privacy Policy</a>.
+          </p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-2 sm:items-center">
+          <!-- Reject non-essential (same prominence as accept) -->
+          <button id="cookieReject"
+            class="rounded-xl bg-white text-slate-900 px-4 py-2 text-sm font-semibold ring-1 ring-slate-200 hover:bg-slate-50">
+            Reject non-essential
+          </button>
+
+          <button id="cookieAccept"
+            class="rounded-xl bg-slate-900 text-white px-4 py-2 text-sm font-semibold hover:bg-slate-800">
+            Accept
+          </button>
+
+          <button id="cookieSettings"
+            class="rounded-xl bg-white/0 text-slate-900 px-4 py-2 text-sm font-semibold ring-1 ring-slate-200 hover:bg-white/60">
+            Cookie settings
+          </button>
+        </div>
+      </div>
+
+      <!-- Simple settings panel (future-proof) -->
+      <div id="cookiePanel" class="hidden mt-4 rounded-2xl bg-white ring-1 ring-slate-200 p-4">
+        <div class="text-sm font-semibold">Preferences</div>
+
+        <div class="mt-3 space-y-3 text-sm text-slate-700">
+          <label class="flex items-start justify-between gap-4">
+            <span>
+              <span class="font-medium text-slate-900">Strictly necessary</span>
+              <span class="block text-slate-600">Security and basic site operation. Always on.</span>
+            </span>
+            <input type="checkbox" checked disabled class="mt-1" />
+          </label>
+
+          <label class="flex items-start justify-between gap-4">
+            <span>
+              <span class="font-medium text-slate-900">Analytics</span>
+              <span class="block text-slate-600">Off in the MVP (we’re not running analytics cookies right now).</span>
+            </span>
+            <input id="cookieAnalytics" type="checkbox" class="mt-1" />
+          </label>
+
+          <label class="flex items-start justify-between gap-4">
+            <span>
+              <span class="font-medium text-slate-900">Marketing</span>
+              <span class="block text-slate-600">Off in the MVP (no ad trackers on-site right now).</span>
+            </span>
+            <input id="cookieMarketing" type="checkbox" class="mt-1" />
+          </label>
+        </div>
+
+        <div class="mt-4 flex flex-col sm:flex-row gap-2">
+          <button id="cookieSave"
+            class="rounded-xl bg-slate-900 text-white px-4 py-2 text-sm font-semibold hover:bg-slate-800">
+            Save preferences
+          </button>
+          <button id="cookieClose"
+            class="rounded-xl bg-white text-slate-900 px-4 py-2 text-sm font-semibold ring-1 ring-slate-200 hover:bg-slate-50">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    const KEY = "sortino_cookie_consent_v1";
+
+    const banner = document.getElementById("cookieBanner");
+    const panel = document.getElementById("cookiePanel");
+
+    const btnAccept = document.getElementById("cookieAccept");
+    const btnReject = document.getElementById("cookieReject");
+    const btnSettings = document.getElementById("cookieSettings");
+    const btnSave = document.getElementById("cookieSave");
+    const btnClose = document.getElementById("cookieClose");
+
+    const cbAnalytics = document.getElementById("cookieAnalytics");
+    const cbMarketing = document.getElementById("cookieMarketing");
+
+    function getConsent() {
+      try { return JSON.parse(localStorage.getItem(KEY) || "null"); } catch { return null; }
+    }
+
+    function setConsent(consent) {
+      localStorage.setItem(KEY, JSON.stringify({
+        necessary: true,
+        analytics: !!consent.analytics,
+        marketing: !!consent.marketing,
+        ts: new Date().toISOString()
+      }));
+      hideBanner();
+      // Future: only load analytics/marketing scripts if consent says true.
+    }
+
+    function showBanner() { banner.classList.remove("hidden"); }
+    function hideBanner() { banner.classList.add("hidden"); panel.classList.add("hidden"); }
+    function togglePanel() { panel.classList.toggle("hidden"); }
+
+    // Show banner only if no stored choice yet
+    const existing = getConsent();
+    if (!existing) showBanner();
+
+    // Buttons
+    btnAccept?.addEventListener("click", () => setConsent({ analytics: true, marketing: true }));
+    btnReject?.addEventListener("click", () => setConsent({ analytics: false, marketing: false }));
+    btnSettings?.addEventListener("click", () => togglePanel());
+
+    btnSave?.addEventListener("click", () => setConsent({
+      analytics: cbAnalytics?.checked,
+      marketing: cbMarketing?.checked
+    }));
+
+    btnClose?.addEventListener("click", () => panel.classList.add("hidden"));
+
+    // Allow opening settings from footer link
+    window.SortinoCookie = {
+      open: function () {
+        showBanner();
+        panel.classList.remove("hidden");
+        const c = getConsent();
+        if (c) {
+          if (cbAnalytics) cbAnalytics.checked = !!c.analytics;
+          if (cbMarketing) cbMarketing.checked = !!c.marketing;
+        }
+      }
+    };
+  })();
+</script>
+
   
 <body class="font-sans text-slate-900">
   <!-- premium light background -->
@@ -477,6 +621,7 @@
         <div class="flex gap-4">
           <a class="hover:text-slate-900" href="/methodology.html">Methodology</a>
           <a class="hover:text-slate-900" href="mailto:info@sortinoapp.com">Contact</a>
+          <a class="hover:text-slate-900" href="#" onclick="window.SortinoCookie?.open(); return false;">Cookie settings</a>
         </div>
       </div>
       <div class="mt-3 text-xs text-slate-500">
