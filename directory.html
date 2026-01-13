@@ -296,7 +296,7 @@
 
     async function load() {
       try {
-        const res = await fetch("/data/agencies.json", { cache: "no-store" });
+        const res = await fetch("/api/agencies", { cache: "no-store" });
         if (!res.ok) throw new Error("Failed to load agencies.json");
         state.agencies = await res.json();
         populateServiceOptions();
