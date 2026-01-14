@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sortino — Buyer Tools</title>
+  <meta name="description" content="Free buyer tools: agency fit quiz, checklist generator, proposal analyzer, and budget sanity calculator." />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: {
+        fontFamily: { sans: ['Inter','ui-sans-serif','system-ui'] },
+        boxShadow: { soft: "0 10px 30px rgba(15, 23, 42, 0.08)" }
+      }}
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    .social-btn{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:16px}
+    .social-btn svg{width:18px;height:18px}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;}
+  </style>
+</head>
+
+<body class="font-sans text-slate-900">
+  <!-- background -->
+  <div class="fixed inset-0 -z-10">
+    <div class="absolute inset-0 bg-[#fbfcff]"></div>
+    <div class="absolute -top-32 left-1/2 h-[28rem] w-[52rem] -translate-x-1/2 rounded-full bg-cyan-200/40 blur-3xl"></div>
+    <div class="absolute top-40 left-1/4 h-[26rem] w-[40rem] rounded-full bg-indigo-200/35 blur-3xl"></div>
+    <div class="absolute top-[30rem] right-0 h-[26rem] w-[40rem] rounded-full bg-amber-200/25 blur-3xl"></div>
+  </div>
+
+  <main class="max-w-6xl mx-auto px-6 py-10">
+    <!-- header -->
+    <header class="flex items-center justify-between gap-4">
+      <a href="/" class="flex items-center gap-3">
+        <div class="h-10 w-10 rounded-2xl bg-white shadow-soft ring-1 ring-slate-200 flex items-center justify-center">
+          <span class="font-bold text-slate-900">S</span>
+        </div>
+        <div>
+          <div class="font-semibold leading-tight">Sortino</div>
+          <div class="text-sm text-slate-600 -mt-0.5">Buyer Tools</div>
+        </div>
+      </a>
+
+      <nav class="hidden sm:flex items-center gap-5 text-sm text-slate-700">
+        <a class="hover:text-slate-900" href="/directory.html">Directory</a>
+        <a class="hover:text-slate-900" href="/signals.html">Signals</a>
+        <a class="hover:text-slate-900" href="/methodology.html">Methodology</a>
+        <a class="hover:text-slate-900 font-medium" href="/tools-buyers.html">Buyer tools</a>
+        <a class="hover:text-slate-900" href="/tools-agencies.html">Agency tools</a>
+        <a class="hover:text-slate-900" href="/submit.html">Submit</a>
+      </nav>
+
+      <div class="hidden sm:flex items-center gap-2">
+        <a class="social-btn bg-white/70 backdrop-blur ring-1 ring-slate-200 shadow-soft hover:bg-white"
+           href="https://x.com/Sortinoapp" target="_blank" rel="noopener" aria-label="Sortino on X">
+          <svg viewBox="0 0 24 24" fill="currentColor" class="text-slate-900">
+            <path d="M18.9 2H22l-6.9 7.9L23 22h-6.7l-5.2-6.7L5.3 22H2l7.4-8.5L1 2h6.8l4.7 6.1L18.9 2Zm-1.2 18h1.7L6.7 3.9H5L17.7 20Z"/>
+          </svg>
+        </a>
+        <a class="social-btn bg-white/70 backdrop-blur ring-1 ring-slate-200 shadow-soft hover:bg-white"
+           href="https://www.instagram.com/sortinoapp1/" target="_blank" rel="noopener" aria-label="Sortino on Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" class="text-slate-900">
+            <rect x="3" y="3" width="18" height="18" rx="5" stroke-width="2"/>
+            <circle cx="12" cy="12" r="4" stroke-width="2"/>
+            <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+          </svg>
+        </a>
+        <a class="social-btn bg-white/70 backdrop-blur ring-1 ring-slate-200 shadow-soft hover:bg-white"
+           href="YOUR_YOUTUBE_URL" target="_blank" rel="noopener" aria-label="Sortino on YouTube">
+          <svg viewBox="0 0 24 24" fill="currentColor" class="text-slate-900">
+            <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.6 3.6 12 3.6 12 3.6s-7.6 0-9.4.5A3 3 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.8.5 9.4.5 9.4.5s7.6 0 9.4-.5a3 3 0 0 0 2.1-2.1A31.5 31.5 0 0 0 24 12a31.5 31.5 0 0 0-.5-5.8ZM9.6 15.5V8.5L15.8 12l-6.2 3.5Z"/>
+          </svg>
+        </a>
+      </div>
+    </header>
+
+    <!-- title -->
+    <section class="mt-10">
+      <div class="inline-flex items-center gap-2 rounded-full bg-white/70 backdrop-blur px-3 py-1 text-xs text-slate-700 ring-1 ring-slate-200 shadow-soft">
+        <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+        Free buyer tools • MVP
+      </div>
+      <h1 class="mt-5 text-4xl font-semibold tracking-tight">Tools for buyers</h1>
+      <p class="mt-4 text-lg text-slate-700 max-w-3xl">
+        Standardize how you evaluate agencies: fit, proof, and risk reduction.
+      </p>
+    </section>
+
+    <section class="mt-8 grid lg:grid-cols-2 gap-5">
+      <!-- Tool 1: Fit Quiz -->
+      <article class="rounded-3xl bg-white/80 backdrop-blur ring-1 ring-slate-200 shadow-soft p-6">
+        <div class="text-sm font-semibold">1) Agency Fit Quiz</div>
+        <p class="mt-1 text-sm text-slate-600">Get the right agency type + what proof to demand.</p>
+
+        <div class="mt-4 grid sm:grid-cols-2 gap-3">
+          <div>
+            <label class="text-xs font-semibold text-slate-700">Business model</label>
+            <select id="fit_model" class="mt-1 w-full rounded-2xl ring-1 ring-slate-200 px-4 py-3 text-sm">
+              <option>DTC / E-commerce</option>
+              <option>B2B SaaS</option>
+              <option>Local / Services</option>
+              <option>Marketplace</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-xs font-semibold text-slate-700">Primary channel</label>
+            <select id="fit_channel" class="mt-1 w-full rounded-2xl ring-1 ring-slate-200 px-4 py-3 text-sm">
+              <option>Meta Ads</option>
+              <option>Google Ads</option>
+              <option>SEO</option>
+              <option>Email / CRM</option>
+              <option>CRO</option>
+              <option>Creative</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-xs font-semibold text-slate-700">Goal</label>
+            <select id="fit_goal" class="mt-1 w-full rounded-2xl ring-1 ring-slate-200 px-4 py-3 text-sm">
+              <option>Lower CAC</option>
+              <option>Increase ROAS</option>
+              <option>Increase pipeline / SQLs</option>
+              <option>Increase conversion rate</option>
+              <option>Retention / LTV</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-xs font-semibold text-slate-700">Monthly spend band</label>
+            <select id="fit_spend" class="mt-1 w-full rounded-2xl ring-1 ring-slate-200 px-4 py-3 text-sm">
+              <option>Under €5k</option>
+              <option>€5–20k</option>
+              <option>€20–50k</option>
+              <option>€50–150k</option>
+              <option>€150k+</option>
+            </select>
+          </div>
+        </div>
+
+        <button id="fit_btn" class="mt-4 rounded-xl bg-slate-900 text-white px-4 py-3 text-sm font-semibold hover:bg-slate-800">
+          Generate recommendation
+        </button>
+
+        <div id="fit_out" class="mt-4 hidden rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-4 text-sm text-slate-700"></div>
+      </article>
+
+      <!-- Tool 2: Checklist Generator -->
+      <article class="rounded-3xl bg-white/80 backdrop-blur ring-1 ring-slate-200 shadow-soft p-6">
+        <div class="text-sm font-semibold">2) Evaluation Checklist Generator</div>
+        <p class="mt-1 text-sm text-slate-600">Instant hiring checklist you can copy/paste.</p>
+
+        <div class="mt-4 grid sm:grid-cols-2 gap-3">
+          <div>
+            <label class="text-xs font-semibold text-slate-700">Niche/theme</label>
+            <input id="chk_niche" class="mt-1 w-full rounded-2xl ring-1 ring-slate-200 px-4 py-3 text-sm" placeholder="e.g., DTC skincare" />
+          </div>
+          <div>
+            <label class="text-xs font-semibold text-slate-700">Channel</label>
+            <input id="chk_channel" class="mt-1 w-full rounded-2xl ring-1 ring-slate-200 px-4 py-3 text-sm" placeholder="e.g., Meta Ads" />
+          </div>
+          <div class="sm:col-span-2">
+            <label class="text-xs font-semibold text-slate-700">Primary metric</label>
+            <input id="chk_metric" class="mt-1 w-full rounded-2xl ring-1 ring-slate-200 px-4 py-3 text-sm" placeholder="e.g., CAC / ROAS / SQLs" />
+          </div>
+        </div>
+
+        <div class="mt-4 flex gap-2">
+          <button id="chk_btn" class="rounded-xl bg-slate-900 text-white px-4 py-3 text-sm font-semibold hover:bg-slate-800">
+            Generate
+          </button>
+          <button id="chk_copy" class="rounded-xl bg-white px-4 py-3 text-sm font-semibold ring-1 ring-slate-200 hover:bg-slate-50">
+            Copy
+          </button>
+        </div>
+
+        <pre id="chk_out" class="mt-4 hidden rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-4 text-sm text-slate-700 overflow-auto mono"></pre>
+      </article>
+
+      <!-- Tool 3: Proposal Analyzer -->
+      <article class="rounded-3xl bg-white/80 backdrop-blur ring-1 ring-slate-200 shadow-soft p-6 lg:col-span-2">
+        <div class="text-sm font-semibold">3) Proposal / Audit Analyzer</div>
+        <p class="mt-1 text-sm text-slate-600">Paste a proposal. We flag missing proof and common red flags.</p>
+
+        <textarea id="prop_text" rows="7"
+          class="mt-4 w-full rounded-2xl ring-1 ring-slate-200 px-4 py-3 text-sm"
+          placeholder="Paste proposal text here…"></textarea>
+
+        <div class="mt-4 flex gap-2">
+          <button id="prop_btn" class="rounded-xl bg-slate-900 text-white px-4 py-3 text-sm font-semibold hover:bg-slate-800">Analyze</button>
+          <button id="prop_clear" class="rounded-xl bg-white px-4 py-3 text-sm font-semibold ring-1 ring-slate-200 hover:bg-slate-50">Clear</button>
+        </div>
+
+        <div id="prop_out" class="mt-4 hidden rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-4 text-sm text-slate-700"></div>
+      </article>
+
+      <!-- Tool 4: Budget sanity calculator -->
+      <article class="rounded-3xl bg-white/80 backdrop-blur ring-1 ring-slate-200 shadow-soft p-6">
+        <div class="text-sm font-semibold">4) Budget Sanity Calculator</div>
+        <p class="mt-1 text-sm text-slate-600">Is your target CAC/ROAS feasible given margins?</p>
+
+        <div class="mt-4 grid sm:grid-cols-2 gap-3">
+          <div>
+            <label class="text-xs font-semibold text-slate-700">AOV (€)</label>
+            <input id="bud_aov" type="number" class="mt-1 w-full rounded-2xl ring-1 ring-slate-200 px-4 py-3 text-sm" value="80" />
+          </div>
+          <div>
+            <label class="text-xs font-semibold text-slate-700">Gross margin (%)</label>
+            <input id="bud_margin" type="number" class="mt-1 w-full rounded-2xl ring-1 ring-slate-200 px-4 py-3 text-sm" value="60" />
+          </div>
+          <div>
+            <label class="text-xs font-semibold text-slate-700">Target CAC (€)</label>
+            <input id="bud_cac" type="number" class="mt-1 w-full rounded-2xl ring-1 ring-slate-200 px-4 py-3 text-sm" value="40" />
+          </div>
+          <div>
+            <label class="text-xs font-semibold text-slate-700">Monthly ad spend (€)</label>
+            <input id="bud_spend" type="number" class="mt-1 w-full rounded-2xl ring-1 ring-slate-200 px-4 py-3 text-sm" value="20000" />
+          </div>
+        </div>
+
+        <button id="bud_btn" class="mt-4 rounded-xl bg-slate-900 text-white px-4 py-3 text-sm font-semibold hover:bg-slate-800">
+          Calculate
+        </button>
+
+        <div id="bud_out" class="mt-4 hidden rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-4 text-sm text-slate-700"></div>
+      </article>
+
+      <!-- Tool 7 teaser (buyers) -->
+      <article class="rounded-3xl bg-white/80 backdrop-blur ring-1 ring-slate-200 shadow-soft p-6">
+        <div class="text-sm font-semibold">7) Leaderboard</div>
+        <p class="mt-1 text-sm text-slate-600">Top agencies + “movers” (when available).</p>
+        <div class="mt-4 flex gap-2">
+          <a href="/directory.html" class="rounded-xl bg-slate-900 text-white px-4 py-3 text-sm font-semibold hover:bg-slate-800">Open directory</a>
+          <a href="/tools-agencies.html#leaderboard" class="rounded-xl bg-white px-4 py-3 text-sm font-semibold ring-1 ring-slate-200 hover:bg-slate-50">Agency view</a>
+        </div>
+      </article>
+    </section>
+
+    <footer class="mt-16 pt-10 border-t border-slate-200 text-sm text-slate-600">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div>© <span id="y"></span> Sortino</div>
+        <div class="flex gap-4">
+          <a class="hover:text-slate-900" href="/privacy.html">Privacy</a>
+          <a class="hover:text-slate-900" href="/directory.html">Directory</a>
+          <a class="hover:text-slate-900" href="/submit.html">Submit</a>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+
+    // Tool 1: Fit Quiz
+    document.getElementById("fit_btn").addEventListener("click", () => {
+      const model = document.getElementById("fit_model").value;
+      const channel = document.getElementById("fit_channel").value;
+      const goal = document.getElementById("fit_goal").value;
+      const spend = document.getElementById("fit_spend").value;
+
+      const type =
+        channel.includes("SEO") ? "SEO/content performance agency" :
+        channel.includes("Email") ? "Lifecycle/CRM agency" :
+        channel.includes("CRO") ? "CRO/experimentation agency" :
+        channel.includes("Creative") ? "Creative performance studio" :
+        channel.includes("Meta") ? "Paid social performance agency" :
+        "Performance agency";
+
+      const proof = [
+        "Baseline → outcome metric (before/after)",
+        "Timeframe (e.g., 60–120 days)",
+        "Budget band (ranges are fine)",
+        "What changed (creative, landing page, bidding, offer, tracking)",
+        "Reporting cadence + ownership of tracking"
+      ];
+
+      const kpis =
+        model.includes("B2B") ? ["SQL→Opportunity rate", "Pipeline created", "CAC payback", "Lead quality controls"] :
+        model.includes("Local") ? ["Cost per lead", "Show rate", "Close rate", "Attribution method"] :
+        ["CAC", "Contribution margin", "ROAS (but with guardrails)", "CVR", "Repeat rate / LTV"];
+
+      const out = document.getElementById("fit_out");
+      out.classList.remove("hidden");
+      out.innerHTML = `
+        <div class="font-semibold text-slate-900">Recommendation</div>
+        <div class="mt-2">Best fit: <span class="font-semibold">${type}</span></div>
+        <div class="mt-1 text-slate-600">Context: ${model} • ${channel} • ${goal} • ${spend}</div>
+
+        <div class="mt-4 font-semibold text-slate-900">Proof to demand</div>
+        <ul class="mt-2 list-disc pl-5 space-y-1">${proof.map(x=>`<li>${x}</li>`).join("")}</ul>
+
+        <div class="mt-4 font-semibold text-slate-900">KPIs to standardize</div>
+        <ul class="mt-2 list-disc pl-5 space-y-1">${kpis.map(x=>`<li>${x}</li>`).join("")}</ul>
+
+        <div class="mt-4 text-xs text-slate-500">Tip: shortlist using signals, decide using proof.</div>
+      `;
+    });
+
+    // Tool 2: Checklist generator
+    function buildChecklist() {
+      const niche = (document.getElementById("chk_niche").value || "your niche").trim();
+      const channel = (document.getElementById("chk_channel").value || "your channel").trim();
+      const metric = (document.getElementById("chk_metric").value || "your primary metric").trim();
+      return [
+        `AGENCY EVALUATION CHECKLIST — ${niche} / ${channel}`,
+        "",
+        "1) Standardize the outcome",
+        `- Agree on ONE primary KPI: ${metric}`,
+        "- Define secondary KPIs (guardrails): CVR, CPC/CPM, quality, retention/LTV",
+        "",
+        "2) Demand proof (comparable)",
+        "- Baseline → outcome",
+        "- Timeframe (e.g., 60–120 days)",
+        "- Budget band (ranges OK)",
+        "- What changed (creative, LP, bidding, offer, tracking)",
+        "",
+        "3) Validate the system",
+        "- Tracking ownership + attribution model",
+        "- Reporting cadence (weekly) + dashboards",
+        "- What happens when results stall?",
+        "",
+        "4) Interview questions",
+        "- Show one anonymized before/after example in this channel",
+        "- What would you do in week 1? week 4?",
+        "- What are the top 3 failure modes here?",
+        "",
+        "Decision rule:",
+        "- Signals shortlist. Proof decides."
+      ].join("\n");
+    }
+
+    document.getElementById("chk_btn").addEventListener("click", () => {
+      const out = document.getElementById("chk_out");
+      out.classList.remove("hidden");
+      out.textContent = buildChecklist();
+    });
+
+    document.getElementById("chk_copy").addEventListener("click", async () => {
+      const txt = buildChecklist();
+      try { await navigator.clipboard.writeText(txt); } catch {}
+      const out = document.getElementById("chk_out");
+      out.classList.remove("hidden");
+      out.textContent = txt + "\n\n(Copied to clipboard)";
+    });
+
+    // Tool 3: Proposal analyzer
+    function hasAny(text, patterns) {
+      return patterns.some(p => p.test(text));
+    }
+
+    document.getElementById("prop_btn").addEventListener("click", () => {
+      const text = (document.getElementById("prop_text").value || "").toLowerCase();
+
+      const checks = [
+        { name: "Baseline → outcome proof", ok: hasAny(text, [/baseline/, /before/, /prior/, /starting/]) && hasAny(text, [/after/, /outcome/, /result/, /improv/]) },
+        { name: "Timeframe mentioned", ok: hasAny(text, [/\b\d+\s*(day|days|week|weeks|month|months)\b/, /timeframe/, /quarter/]) },
+        { name: "Budget / spend band", ok: hasAny(text, [/€|\$|budget|spend|ad spend|media spend|retainer|monthly/]) },
+        { name: "Reporting cadence", ok: hasAny(text, [/weekly/, /report/, /dashboard/, /kpi/, /standup/]) },
+        { name: "Attribution / tracking", ok: hasAny(text, [/attribution/, /tracking/, /pixel/, /ga4/, /server-side/, /utm/]) },
+        { name: "Clear deliverables", ok: hasAny(text, [/deliverable/, /scope/, /we will/, /includes/, /SLA/i]) },
+      ];
+
+      const redFlags = [];
+      if (hasAny(text, [/guarantee/, /guaranteed/, /100%/, /overnight/])) redFlags.push("Guarantee language (often a bad sign).");
+      if (!hasAny(text, [/risk/, /assumption/, /depends/, /constraint/, /limitation/])) redFlags.push("No constraints/risks mentioned (unrealistic proposals).");
+      if (hasAny(text, [/vanity/, /followers/, /likes/, /impressions only/])) redFlags.push("Leaning heavily on vanity metrics.");
+
+      const missing = checks.filter(c => !c.ok).map(c => c.name);
+
+      const out = document.getElementById("prop_out");
+      out.classList.remove("hidden");
+      out.innerHTML = `
+        <div class="font-semibold text-slate-900">Results</div>
+        <div class="mt-2 grid sm:grid-cols-2 gap-2">
+          ${checks.map(c => `
+            <div class="rounded-xl bg-white ring-1 ring-slate-200 px-3 py-2 text-sm">
+              <span class="${c.ok ? "text-emerald-700" : "text-rose-700"} font-semibold">${c.ok ? "✓" : "✕"}</span>
+              <span class="ml-2">${c.name}</span>
+            </div>
+          `).join("")}
+        </div>
+
+        <div class="mt-4">
+          <div class="font-semibold text-slate-900">Missing / weak</div>
+          <ul class="mt-2 list-disc pl-5 space-y-1">${missing.length ? missing.map(m=>`<li>${m}</li>`).join("") : "<li>None detected</li>"}</ul>
+        </div>
+
+        <div class="mt-4">
+          <div class="font-semibold text-slate-900">Potential red flags</div>
+          <ul class="mt-2 list-disc pl-5 space-y-1">${redFlags.length ? redFlags.map(r=>`<li>${r}</li>`).join("") : "<li>None detected</li>"}</ul>
+        </div>
+
+        <div class="mt-4 text-xs text-slate-500">MVP heuristic analyzer. Use as a checklist, not a verdict.</div>
+      `;
+    });
+
+    document.getElementById("prop_clear").addEventListener("click", () => {
+      document.getElementById("prop_text").value = "";
+      document.getElementById("prop_out").classList.add("hidden");
+    });
+
+    // Tool 4: Budget sanity
+    document.getElementById("bud_btn").addEventListener("click", () => {
+      const aov = Number(document.getElementById("bud_aov").value || 0);
+      const marginPct = Number(document.getElementById("bud_margin").value || 0);
+      const cac = Number(document.getElementById("bud_cac").value || 0);
+      const spend = Number(document.getElementById("bud_spend").value || 0);
+
+      const grossProfit = aov * (marginPct / 100);
+      const feasible = cac <= grossProfit;
+      const requiredOrders = cac > 0 ? Math.ceil(spend / cac) : 0;
+      const impliedRevenue = requiredOrders * aov;
+
+      const out = document.getElementById("bud_out");
+      out.classList.remove("hidden");
+      out.innerHTML = `
+        <div class="font-semibold text-slate-900">Budget sanity</div>
+        <div class="mt-2">Gross profit per order: <span class="font-semibold">€${grossProfit.toFixed(2)}</span></div>
+        <div class="mt-1">Target CAC: <span class="font-semibold">€${cac.toFixed(2)}</span> → ${feasible ? "<span class='text-emerald-700 font-semibold'>Feasible (on margin)</span>" : "<span class='text-rose-700 font-semibold'>Risky (CAC > gross profit)</span>"}</div>
+
+        <div class="mt-4 font-semibold text-slate-900">Implied targets</div>
+        <ul class="mt-2 list-disc pl-5 space-y-1">
+          <li>Orders needed (rough): <span class="font-semibold">${requiredOrders}</span></li>
+          <li>Implied revenue (rough): <span class="font-semibold">€${impliedRevenue.toFixed(0)}</span></li>
+        </ul>
+
+        <div class="mt-4 text-xs text-slate-500">
+          If CAC exceeds gross profit, you need LTV/retention, upsells, or a different goal (e.g., pipeline instead of purchase).
+        </div>
+      `;
+    });
+  </script>
+
+  <!-- paste cookie banner snippet here if you use it on every page -->
+</body>
+</html>
