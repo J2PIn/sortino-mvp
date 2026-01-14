@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sortino — Agency Tools</title>
+  <meta name="description" content="Free agency tools: confidence simulator, anonymizer helper, leaderboard/ticker." />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: {
+        fontFamily: { sans: ['Inter','ui-sans-serif','system-ui'] },
+        boxShadow: { soft: "0 10px 30px rgba(15, 23, 42, 0.08)" }
+      }}
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    .social-btn{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:16px}
+    .social-btn svg{width:18px;height:18px}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;}
+  </style>
+</head>
+
+<body class="font-sans text-slate-900">
+  <div class="fixed inset-0 -z-10">
+    <div class="absolute inset-0 bg-[#fbfcff]"></div>
+    <div class="absolute -top-32 left-1/2 h-[28rem] w-[52rem] -translate-x-1/2 rounded-full bg-cyan-200/40 blur-3xl"></div>
+    <div class="absolute top-40 left-1/4 h-[26rem] w-[40rem] rounded-full bg-indigo-200/35 blur-3xl"></div>
+    <div class="absolute top-[30rem] right-0 h-[26rem] w-[40rem] rounded-full bg-amber-200/25 blur-3xl"></div>
+  </div>
+
+  <main class="max-w-6xl mx-auto px-6 py-10">
+    <header class="flex items-center justify-between gap-4">
+      <a href="/" class="flex items-center gap-3">
+        <div class="h-10 w-10 rounded-2xl bg-white shadow-soft ring-1 ring-slate-200 flex items-center justify-center">
+          <span class="font-bold text-slate-900">S</span>
+        </div>
+        <div>
+          <div class="font-semibold leading-tight">Sortino</div>
+          <div class="text-sm text-slate-600 -mt-0.5">Agency Tools</div>
+        </div>
+      </a>
+
+      <nav class="hidden sm:flex items-center gap-5 text-sm text-slate-700">
+        <a class="hover:text-slate-900" href="/directory.html">Directory</a>
+        <a class="hover:text-slate-900" href="/submit.html">Submit</a>
+        <a class="hover:text-slate-900" href="/tools-buyers.html">Buyer tools</a>
+        <a class="hover:text-slate-900 font-medium" href="/tools-agencies.html">Agency tools</a>
+        <a class="hover:text-slate-900" href="/methodology.html">Methodology</a>
+      </nav>
+
+      <a href="/submit.html" class="inline-flex items-center gap-2 rounded-xl bg-slate-900 text-white px-4 py-2 text-sm font-semibold hover:bg-slate-800">
+        Submit results
+      </a>
+    </header>
+
+    <section class="mt-10">
+      <div class="inline-flex items-center gap-2 rounded-full bg-white/70 backdrop-blur px-3 py-1 text-xs text-slate-700 ring-1 ring-slate-200 shadow-soft">
+        <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+        Free agency tools • MVP
+      </div>
+      <h1 class="mt-5 text-4xl font-semibold tracking-tight">Tools for agencies</h1>
+      <p class="mt-4 text-lg text-slate-700 max-w-3xl">
+        Improve confidence, submit cleaner proof, and track the leaderboard.
+      </p>
+    </section>
+
+    <section class="mt-8 grid lg:grid-cols-2 gap-5">
+      <!-- Tool 5: Confidence simulator -->
+      <article class="rounded-3xl bg-white/80 backdrop-blur ring-1 ring-slate-200 shadow-soft p-6">
+        <div class="text-sm font-semibold">5) Confidence Score Simulator</div>
+        <p class="mt-1 text-sm text-slate-600">See what raises confidence (not “paying for rank”).</p>
+
+        <div class="mt-4 space-y-3">
+          <label class="text-xs font-semibold text-slate-700">Public signals strength (0–100)</label>
+          <input id="sim_signals" type="range" min="0" max="100" value="55" class="w-full">
+          <div class="text-xs text-slate-600">Value: <span id="sim_signals_v" class="font-semibold">55</span></div>
+
+          <label class="text-xs font-semibold text-slate-700">Consistency (cadence/reviews trend) (0–100)</label>
+          <input id="sim_consistency" type="range" min="0" max="100" value="50" class="w-full">
+          <div class="text-xs text-slate-600">Value: <span id="sim_consistency_v" class="font-semibold">50</span></div>
+
+          <label class="text-xs font-semibold text-slate-700">Evidence submitted</label>
+          <select id="sim_evidence" class="mt-1 w-full rounded-2xl ring-1 ring-slate-200 px-4 py-3 text-sm">
+            <option value="0">No</option>
+            <option value="1">Yes (redacted evidence)</option>
+          </select>
+
+          <button id="sim_btn" class="mt-2 rounded-xl bg-slate-900 text-white px-4 py-3 text-sm font-semibold hover:bg-slate-800">
+            Calculate
+          </button>
+
+          <div id="sim_out" class="hidden rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-4 text-sm text-slate-700"></div>
+        </div>
+      </article>
+
+      <!-- Tool 6: Case study anonymizer helper -->
+      <article class="rounded-3xl bg-white/80 backdrop-blur ring-1 ring-slate-200 shadow-soft p-6">
+        <div class="text-sm font-semibold">6) Case Study Anonymizer Helper</div>
+        <p class="mt-1 text-sm text-slate-600">Paste text, we redact common identifiers + output a submission template.</p>
+
+        <textarea id="anon_in" rows="9"
+          class="mt-4 w-full rounded-2xl ring-1 ring-slate-200 px-4 py-3 text-sm"
+          placeholder="Paste a draft case study / notes here…"></textarea>
+
+        <div class="mt-4 flex gap-2">
+          <button id="anon_btn" class="rounded-xl bg-slate-900 text-white px-4 py-3 text-sm font-semibold hover:bg-slate-800">Redact + format</button>
+          <button id="anon_copy" class="rounded-xl bg-white px-4 py-3 text-sm font-semibold ring-1 ring-slate-200 hover:bg-slate-50">Copy</button>
+        </div>
+
+        <pre id="anon_out" class="mt-4 hidden rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-4 text-sm text-slate-700 overflow-auto mono"></pre>
+      </article>
+
+      <!-- Tool 7: Leaderboard -->
+      <article id="leaderboard" class="rounded-3xl bg-white/80 backdrop-blur ring-1 ring-slate-200 shadow-soft p-6 lg:col-span-2">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <div class="text-sm font-semibold">7) Leaderboard + Ticker</div>
+            <p class="mt-1 text-sm text-slate-600">Approved agencies only. Movers show when deltas are available.</p>
+          </div>
+          <div class="flex gap-2">
+            <button id="lb_refresh" class="rounded-xl bg-white px-4 py-2 text-sm font-semibold ring-1 ring-slate-200 hover:bg-slate-50">Refresh</button>
+            <a href="/directory.html" class="rounded-xl bg-slate-900 text-white px-4 py-2 text-sm font-semibold hover:bg-slate-800">Open directory</a>
+          </div>
+        </div>
+
+        <div class="mt-5 grid lg:grid-cols-2 gap-4">
+          <div class="rounded-2xl bg-white ring-1 ring-slate-200 p-4">
+            <div class="text-sm font-semibold">Top agencies</div>
+            <div id="lb_top" class="mt-3 text-sm text-slate-700">Loading…</div>
+          </div>
+
+          <div class="rounded-2xl bg-white ring-1 ring-slate-200 p-4">
+            <div class="text-sm font-semibold">Top movers</div>
+            <div class="text-xs text-slate-500 mt-1">Requires score deltas (see API note below).</div>
+            <div id="lb_movers" class="mt-3 text-sm text-slate-700">Loading…</div>
+          </div>
+        </div>
+
+        <div class="mt-4 text-xs text-slate-500">
+          If movers show empty: approve more submissions and start updating scores over time (deltas will appear).
+        </div>
+      </article>
+    </section>
+
+    <footer class="mt-16 pt-10 border-t border-slate-200 text-sm text-slate-600">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div>© <span id="y"></span> Sortino</div>
+        <div class="flex gap-4">
+          <a class="hover:text-slate-900" href="/privacy.html">Privacy</a>
+          <a class="hover:text-slate-900" href="/methodology.html">Methodology</a>
+          <a class="hover:text-slate-900" href="/submit.html">Submit</a>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+
+    // Tool 5
+    const s = document.getElementById("sim_signals");
+    const c = document.getElementById("sim_consistency");
+    const sv = document.getElementById("sim_signals_v");
+    const cv = document.getElementById("sim_consistency_v");
+    const ev = document.getElementById("sim_evidence");
+    const out = document.getElementById("sim_out");
+
+    function sync() { sv.textContent = s.value; cv.textContent = c.value; }
+    s.addEventListener("input", sync); c.addEventListener("input", sync); sync();
+
+    document.getElementById("sim_btn").addEventListener("click", () => {
+      const signals = Number(s.value);
+      const consistency = Number(c.value);
+      const evidence = Number(ev.value);
+
+      // MVP heuristic: evidence boosts confidence more than signals
+      const score = 0.45 * signals + 0.35 * consistency + (evidence ? 25 : 0);
+      const conf = score >= 80 ? "High" : score >= 60 ? "Med" : "Low";
+      const tips = [
+        "Add anonymized baseline → outcome submissions regularly.",
+        "Include timeframe + budget band (ranges OK).",
+        "If uploading evidence, redact identifiers (client names, domains, account IDs).",
+        "Stability > spikes: consistent cadence boosts confidence."
+      ];
+
+      out.classList.remove("hidden");
+      out.innerHTML = `
+        <div class="font-semibold text-slate-900">Estimated confidence</div>
+        <div class="mt-2">Simulated score: <span class="font-semibold">${score.toFixed(1)}</span></div>
+        <div class="mt-1">Confidence: <span class="font-semibold">${conf}</span></div>
+        <div class="mt-4 font-semibold text-slate-900">What improves confidence fastest</div>
+        <ul class="mt-2 list-disc pl-5 space-y-1">${tips.map(t=>`<li>${t}</li>`).join("")}</ul>
+      `;
+    });
+
+    // Tool 6: Redact + format template
+    function redact(text) {
+      let t = text || "";
+      // emails
+      t = t.replace(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi, "[REDACTED_EMAIL]");
+      // domains/urls
+      t = t.replace(/\bhttps?:\/\/[^\s]+/gi, "[REDACTED_URL]");
+      t = t.replace(/\b(www\.)?[a-z0-9-]+\.[a-z]{2,}\b/gi, "[REDACTED_DOMAIN]");
+      // obvious IDs
+      t = t.replace(/\b(account id|ad account|pixel id|ga4 property|customer id)\b[:\s]*[a-z0-9_-]+/gi, "[REDACTED_ID]");
+      return t;
+    }
+
+    function toTemplate(text) {
+      const t = redact(text).trim();
+      return [
+        "SORTINO SUBMISSION (ANONYMIZED)",
+        "",
+        "Agency name:",
+        "Agency website:",
+        "Location:",
+        "",
+        "Industry theme (no client name):",
+        "Channel:",
+        "Timeframe:",
+        "Budget band (optional):",
+        "",
+        "Baseline (before):",
+        "",
+        "Outcome (after):",
+        "",
+        "What changed (tactics):",
+        "",
+        "Notes:",
+        "",
+        "---- RAW NOTES (REDACTED) ----",
+        t || "(empty)"
+      ].join("\n");
+    }
+
+    document.getElementById("anon_btn").addEventListener("click", () => {
+      const input = document.getElementById("anon_in").value || "";
+      const outEl = document.getElementById("anon_out");
+      outEl.classList.remove("hidden");
+      outEl.textContent = toTemplate(input);
+    });
+
+    document.getElementById("anon_copy").addEventListener("click", async () => {
+      const input = document.getElementById("anon_in").value || "";
+      const txt = toTemplate(input);
+      try { await navigator.clipboard.writeText(txt); } catch {}
+      const outEl = document.getElementById("anon_out");
+      outEl.classList.remove("hidden");
+      outEl.textContent = txt + "\n\n(Copied to clipboard)";
+    });
+
+    // Tool 7: Leaderboard
+    async function loadLeaderboard() {
+      const topEl = document.getElementById("lb_top");
+      const movEl = document.getElementById("lb_movers");
+
+      try {
+        topEl.textContent = "Loading…";
+        movEl.textContent = "Loading…";
+
+        const a = await fetch("/api/agencies", { cache: "no-store" });
+        const agencies = a.ok ? await a.json() : [];
+        const top = (agencies || []).slice(0, 10);
+
+        topEl.innerHTML = top.length ? `
+          <ol class="space-y-2">
+            ${top.map((x,i)=>`
+              <li class="flex items-center justify-between gap-3 rounded-xl bg-slate-50 ring-1 ring-slate-200 px-3 py-2">
+                <span class="text-slate-700"><span class="text-slate-500 mr-2">#${i+1}</span>${x.name}</span>
+                <span class="font-semibold">${typeof x.score === "number" ? x.score.toFixed(1) : "—"}</span>
+              </li>
+            `).join("")}
+          </ol>
+        ` : `<div class="text-slate-600">No approved agencies yet.</div>`;
+
+        const m = await fetch("/api/movers", { cache: "no-store" });
+        const movers = m.ok ? await m.json() : [];
+
+        movEl.innerHTML = movers.length ? `
+          <ol class="space-y-2">
+            ${movers.map((x,i)=>`
+              <li class="flex items-center justify-between gap-3 rounded-xl bg-slate-50 ring-1 ring-slate-200 px-3 py-2">
+                <span class="text-slate-700"><span class="text-slate-500 mr-2">#${i+1}</span>${x.name}</span>
+                <span class="font-semibold text-emerald-700">+${Number(x.delta||0).toFixed(1)}</span>
+              </li>
+            `).join("")}
+          </ol>
+        ` : `<div class="text-slate-600">No mover data yet.</div>`;
+      } catch {
+        topEl.textContent = "Unavailable.";
+        movEl.textContent = "Unavailable.";
+      }
+    }
+
+    document.getElementById("lb_refresh").addEventListener("click", loadLeaderboard);
+    loadLeaderboard();
+  </script>
+
+  <!-- paste cookie banner snippet here if you use it on every page -->
+</body>
+</html>
