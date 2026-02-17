@@ -1,5 +1,15 @@
 import fs from "fs";
 
+function detectDelim(headerLine) {
+  const c = (headerLine.match(/,/g) || []).length;
+  const s = (headerLine.match(/;/g) || []).length;
+  const t = (headerLine.match(/\t/g) || []).length;
+  if (t >= s && t >= c && t > 0) return "\t";
+  if (s >= c && s > 0) return ";";
+  return ",";
+}
+
+
 function slugify(s) {
   return String(s || "")
     .normalize("NFKD")
@@ -23,7 +33,10 @@ function nowSql() {
 }
 
 // CHANGE THIS if your file is comma-separated
-const DELIM = ",";
+const firstLine = raw.split(/\r?\n/)[0] || "";
+const DELIM = detectDelim(firstLine);
+console.log("Detected delimiter:", JSON.stringify(DELIM));
+
 
 const inputPath = process.argv[2] || "./data/agencies.tsv";
 const outPath = process.argv[3] || "./import_agencies.sql";
