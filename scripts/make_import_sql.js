@@ -49,13 +49,6 @@ if (lines.length < 2) {
   process.exit(1);
 }
 
-const headerRaw = lines[0];
-const header = headerRaw
-  .replace(/^\uFEFF/, "")
-  .replace(/\r/g, "")
-  .split(DELIM)
-  .map(h => h.trim());
-
 console.log("HEADER RAW:", JSON.stringify(headerRaw));
 console.log("HEADERS:", header);
 
