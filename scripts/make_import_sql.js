@@ -23,7 +23,7 @@ function nowSql() {
 }
 
 // CHANGE THIS if your file is comma-separated
-const DELIM = "\t"; // if your file is true CSV, set to ","
+const DELIM = ",";
 
 const inputPath = process.argv[2] || "./data/agencies.tsv";
 const outPath = process.argv[3] || "./import_agencies.sql";
@@ -36,7 +36,7 @@ if (lines.length < 2) {
   process.exit(1);
 }
 
-const header = lines[0].split(DELIM).map(h => h.trim());
+const header = lines[0].replace(/\r$/, "").split(DELIM).map(h => h.trim());
 const idx = (col) => header.indexOf(col);
 
 const requiredCols = ["name", "country", "city", "website"];
