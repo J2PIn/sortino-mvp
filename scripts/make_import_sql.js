@@ -37,17 +37,16 @@ if (lines.length < 2) {
 }
 
 const headerRaw = lines[0];
-
-// normalize: remove BOM, remove ALL \r, trim, lowercase
 const header = headerRaw
   .replace(/^\uFEFF/, "")
   .replace(/\r/g, "")
   .split(DELIM)
-  .map(h => h.trim().toLowerCase());
+  .map(h => h.trim());
 
-console.log("Detected headers:", header);
+console.log("HEADER RAW:", JSON.stringify(headerRaw));
+console.log("HEADERS:", header);
 
-const idx = (col) => header.indexOf(String(col).toLowerCase());
+const idx = (col) => header.indexOf(col);
 
 
 const requiredCols = ["name", "country", "city", "website"];
