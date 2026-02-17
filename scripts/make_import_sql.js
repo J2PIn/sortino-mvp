@@ -36,8 +36,19 @@ if (lines.length < 2) {
   process.exit(1);
 }
 
-const header = lines[0].replace(/\r$/, "").split(DELIM).map(h => h.trim());
-const idx = (col) => header.indexOf(col);
+const headerRaw = lines[0];
+
+// normalize: remove BOM, remove ALL \r, trim, lowercase
+const header = headerRaw
+  .replace(/^\uFEFF/, "")
+  .replace(/\r/g, "")
+  .split(DELIM)
+  .map(h => h.trim().toLowerCase());
+
+console.log("Detected headers:", header);
+
+const idx = (col) => header.indexOf(String(col).toLowerCase());
+
 
 const requiredCols = ["name", "country", "city", "website"];
 for (const c of requiredCols) {
