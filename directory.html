@@ -108,6 +108,45 @@
         </div>
       </div>
 
+      .badge{
+        display:inline-flex;
+        align-items:center;
+        padding:6px 10px;
+        border-radius:999px;
+        font-size:12px;
+        font-weight:700;
+        line-height:1;
+      }
+      .badge-verified{
+        background:#16a34a;
+        color:#fff;
+      }
+      .badge-unverified{
+        background:#e5e7eb;
+        color:#111827;
+      }
+      
+      .btn-claim{
+        display:inline-flex;
+        align-items:center;
+        padding:8px 12px;
+        border-radius:12px;
+        font-weight:700;
+        font-size:13px;
+        background:#111827;
+        color:#fff;
+        text-decoration:none;
+      }
+      .btn-claim:hover{ opacity:.9; }
+      .card-top{
+        display:flex;
+        gap:10px;
+        align-items:center;
+        justify-content:space-between;
+        margin-bottom:10px;
+      }
+
+      
       <div class="mt-4 flex flex-wrap items-center gap-2">
         <span class="text-xs text-slate-600">Confidence:</span>
         <button data-conf="" class="confBtn chip bg-white ring-1 ring-slate-200 text-slate-700">All</button>
