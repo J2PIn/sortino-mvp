@@ -186,9 +186,14 @@
     }
 
     function renderCard(a, idx) {
-      const services = (a.services || []).slice(0, 4).map(x =>
+      const serviceList = Array.isArray(a.services)
+        ? a.services
+        : (a.services ? String(a.services).split(",").map(s => s.trim()).filter(Boolean) : []);
+      
+      const services = serviceList.slice(0, 4).map(x =>
         `<span class="chip bg-slate-50 ring-1 ring-slate-200 text-slate-800">${escapeHtml(x)}</span>`
       ).join("");
+
 
       const highlights = (a.highlights || []).slice(0, 3).map(x =>
         `<li class="flex gap-2"><span class="text-emerald-600 mt-0.5">✓</span><span>${escapeHtml(x)}</span></li>`
