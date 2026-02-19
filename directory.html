@@ -29,6 +29,38 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 
   <style>
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:700;
+      line-height:1;
+    }
+    .badge-verified{ background:#16a34a; color:#fff; }
+    .badge-unverified{ background:#e5e7eb; color:#111827; }
+    
+    .btn-claim{
+      display:inline-flex;
+      align-items:center;
+      padding:8px 12px;
+      border-radius:12px;
+      font-weight:700;
+      font-size:13px;
+      background:#111827;
+      color:#fff;
+      text-decoration:none;
+    }
+    .btn-claim:hover{ opacity:.9; }
+    
+    .card-top{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:10px;
+    }
     .chip { display:inline-flex; align-items:center; gap:.4rem; padding:.35rem .6rem; border-radius:999px; font-size:.75rem; }
   </style>
 </head>
@@ -108,44 +140,7 @@
         </div>
       </div>
 
-      .badge{
-        display:inline-flex;
-        align-items:center;
-        padding:6px 10px;
-        border-radius:999px;
-        font-size:12px;
-        font-weight:700;
-        line-height:1;
-      }
-      .badge-verified{
-        background:#16a34a;
-        color:#fff;
-      }
-      .badge-unverified{
-        background:#e5e7eb;
-        color:#111827;
-      }
       
-      .btn-claim{
-        display:inline-flex;
-        align-items:center;
-        padding:8px 12px;
-        border-radius:12px;
-        font-weight:700;
-        font-size:13px;
-        background:#111827;
-        color:#fff;
-        text-decoration:none;
-      }
-      .btn-claim:hover{ opacity:.9; }
-      .card-top{
-        display:flex;
-        gap:10px;
-        align-items:center;
-        justify-content:space-between;
-        margin-bottom:10px;
-      }
-
       
       <div class="mt-4 flex flex-wrap items-center gap-2">
         <span class="text-xs text-slate-600">Confidence:</span>
@@ -197,31 +192,25 @@
     const elEmpty = document.getElementById("empty");
     const elCount = document.getElementById("count");
 
-    function badge(confidence, verification) {
-      // confidence chip
+    function chips(confidence, verification) {
       const conf = confidence || "Low";
       const confClass =
         conf === "High" ? "bg-emerald-50 ring-emerald-200 text-emerald-900" :
         conf === "Med" ? "bg-amber-50 ring-amber-200 text-amber-900" :
         "bg-slate-50 ring-slate-200 text-slate-800";
-
-      // verification chip
+    
       const ver = verification || "Unverified";
       const verClass =
         ver === "Verified" ? "bg-emerald-50 ring-emerald-200 text-emerald-900" :
         ver === "Evidence" ? "bg-amber-50 ring-amber-200 text-amber-900" :
         "bg-white ring-slate-200 text-slate-700";
-
+    
       return `
-        <div class="card-top">
-          ${badge}
-          ${claimBtn}
-        </div>
-
-        <span class="chip ring-1 ${confClass}">Confidence: ${conf}</span>
-        <span class="chip ring-1 ${verClass}">${ver}</span>
+        <span class="chip ring-1 ${confClass}">Confidence: ${escapeHtml(conf)}</span>
+        <span class="chip ring-1 ${verClass}">${escapeHtml(ver)}</span>
       `;
     }
+
 
     function escapeHtml(s) {
       return String(s || "").replace(/[&<>"']/g, c => ({
@@ -273,7 +262,7 @@
           </div>
 
           <div class="mt-4 flex flex-wrap gap-2">
-            ${badge(a.confidence, a.verification)}
+            ${chips(a.confidence, a.verification)}
           </div>
 
           <div class="mt-4 flex flex-wrap gap-2">
@@ -298,23 +287,27 @@
     }
 
     function applyFilters(list) {
-      const q = state.q.trim().toLowerCase();
-      let out = list;
-
-      if (q) {
-        out = out.filter(a => {
-          const blob = [
-            a.name, a.location,
-            ...(a.services || []),
-            ...(a.industries || [])
-          ].join(" ").toLowerCase();
+      const svc = Array.isArray(a.services)
+        ? a.services
+        : (a.services ? String(a.services).split(",").map(s => s.trim()) : []);
+      
+      const blob = [
+        a.name, a.location,
+        ...svc,
+        ...(a.industries || [])
+      ].filter(Boolean).join(" ").toLowerCase();
           return blob.includes(q);
         });
       }
 
       if (state.service) {
-        out = out.filter(a => (a.services || []).includes(state.service));
-      }
+        out = out.filter(a => {
+          const svc = Array.isArray(a.services)
+            ? a.services
+            : (a.services ? String(a.services).split(",").map(s => s.trim()) : []);
+          return svc.includes(state.service);
+        });
+
 
       if (state.conf) {
         out = out.filter(a => (a.confidence || "") === state.conf);
@@ -349,10 +342,16 @@
 
     function populateServiceOptions() {
       const all = new Set();
-      state.agencies.forEach(a => (a.services || []).forEach(s => all.add(s)));
+      state.agencies.forEach(a => {
+        const svc = Array.isArray(a.services)
+          ? a.services
+          : (a.services ? String(a.services).split(",").map(s => s.trim()) : []);
+        svc.forEach(s => all.add(s));
+      });
       const opts = ["", ...Array.from(all).sort()];
       elService.innerHTML = opts.map(v => `<option value="${escapeHtml(v)}">${v ? escapeHtml(v) : "All"}</option>`).join("");
     }
+
 
     async function load() {
       try {
