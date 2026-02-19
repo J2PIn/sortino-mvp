@@ -222,37 +222,36 @@
       const serviceList = Array.isArray(a.services)
         ? a.services
         : (a.services ? String(a.services).split(",").map(s => s.trim()).filter(Boolean) : []);
-      
+    
       const services = serviceList.slice(0, 4).map(x =>
         `<span class="chip bg-slate-50 ring-1 ring-slate-200 text-slate-800">${escapeHtml(x)}</span>`
       ).join("");
-
-
+    
       const highlights = (a.highlights || []).slice(0, 3).map(x =>
         `<li class="flex gap-2"><span class="text-emerald-600 mt-0.5">✓</span><span>${escapeHtml(x)}</span></li>`
       ).join("");
-
+    
       const score = (typeof a.score === "number") ? a.score.toFixed(1) : "—";
       const updated = a.updated_at ? escapeHtml(a.updated_at) : "—";
       const rank = idx + 1;
-
+    
       const isVerified = String(a.verification || "").toLowerCase() === "verified";
-
       const badgeHtml = isVerified
         ? `<span class="badge badge-verified">Sortino Verified</span>`
         : `<span class="badge badge-unverified">Unverified</span>`;
-      
+    
       const claimBtn = isVerified
         ? ""
         : `<a class="btn-claim" href="/#pricing">Claim & Verify</a>`;
-
-
+    
       return `
         <article class="rounded-3xl bg-white/80 backdrop-blur ring-1 ring-slate-200 shadow-soft p-6">
-        <div class="card-top">
-          ${badgeHtml}
-          ${claimBtn}
-        </div>
+    
+          <div class="card-top">
+            ${badgeHtml}
+            ${claimBtn}
+          </div>
+    
           <div class="flex items-start justify-between gap-4">
             <div>
               <div class="text-xs text-slate-500">Rank #${rank}</div>
@@ -264,19 +263,19 @@
               <div class="text-3xl font-semibold tracking-tight">${score}</div>
             </div>
           </div>
-
+    
           <div class="mt-4 flex flex-wrap gap-2">
             ${chips(a.confidence, a.verification)}
           </div>
-
+    
           <div class="mt-4 flex flex-wrap gap-2">
             ${services}
           </div>
-
+    
           <ul class="mt-4 space-y-2 text-sm text-slate-700">
             ${highlights}
           </ul>
-
+    
           <div class="mt-5 flex items-center justify-between gap-3">
             <div class="text-xs text-slate-500">Updated: ${updated}</div>
             <div class="flex gap-2">
@@ -287,13 +286,11 @@
             </div>
           </div>
         </article>
-        
-
       `;
     }
 
     function applyFilters(list) {
-      let out = list || [];
+      let out = Array.isArray(list) ? list : [];
       const q = (state.q || "").trim().toLowerCase();
     
       if (q) {
@@ -331,7 +328,7 @@
         if (sort === "name_asc") return (a.name || "").localeCompare(b.name || "");
         if (sort === "score_asc") return (a.score ?? -Infinity) - (b.score ?? -Infinity);
         if (sort === "updated_desc") return (b.updated_at || "").localeCompare(a.updated_at || "");
-        return (b.score ?? -Infinity) - (a.score ?? -Infinity); // score_desc
+        return (b.score ?? -Infinity) - (a.score ?? -Infinity);
       });
     
       return out;
