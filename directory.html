@@ -335,18 +335,7 @@
     }
 
 
-      // sort
-      const sort = state.sort;
-      out = [...out].sort((a, b) => {
-        if (sort === "name_asc") return (a.name || "").localeCompare(b.name || "");
-        if (sort === "score_asc") return (a.score ?? -Infinity) - (b.score ?? -Infinity);
-        if (sort === "updated_desc") return (b.updated_at || "").localeCompare(a.updated_at || "");
-        // score_desc
-        return (b.score ?? -Infinity) - (a.score ?? -Infinity);
-      });
-
-      return out;
-    }
+      
 
     function render() {
       const filtered = applyFilters(state.agencies);
